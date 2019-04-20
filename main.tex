@@ -1,0 +1,156 @@
+\documentclass[11pt,a4paper,english]{article}
+\usepackage{geometry}
+\geometry{a4paper}
+
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{enumerate}
+\usepackage{siunitx}
+\usepackage[font=small,labelfont=bf,tableposition=top]{caption}
+\usepackage{booktabs}
+\usepackage[colorlinks,linkcolor=black]{hyperref}
+\usepackage{threeparttable}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\linespread{1.2}
+
+\begin{document}
+
+\vspace*{0.25cm}
+
+\hrulefill
+
+\thispagestyle{empty}
+
+\begin{center}
+\begin{large}
+\sc{UM--SJTU Joint Institute \vspace{0.3em} \\ Probabilistic Methods in Engineering \\(Ve401)}
+\end{large}
+
+\hrulefill
+
+\vspace*{5cm}
+\begin{Large}
+\sc{{Project Report}}
+\end{Large}
+
+\vspace{2em}
+
+\begin{large}
+\sc{{Term Project 2
+\vspace{0.5em}
+
+Police Shootings in the United States}} \\
+\vspace{2em}
+\end{large}
+\today
+\end{center}
+
+\vfill
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll}
+\textbf{Name} & \textbf{ID} \\
+\textsc{Li Minhao} & \texttt{516370910223} \\
+\textsc{Xie Mufeng} &  \texttt{515370910186} \\
+\textsc{Yao Shaoxiong} & \texttt{517370910014} \\
+\textsc{Zhang Zhenyuan} & \texttt{517370910124} \\
+\textsc{Zhao Yijia} &  \texttt{517370910243} \\
+\end{tabular}
+\end{table}
+\newpage
+\begin{abstract}
+\end{abstract}
+\newpage
+\tableofcontents
+\newpage
+\section{Introduction}
+Fatal police shootings are the incidents that police shoot the suspect to death in the line of duty.
+Constitutionally, police are allowed to shoot "to protect their life or the life of another innocent party" or "prevent a suspect from escaping if the suspect is thought to pose a threat to others"[2].
+Their decisions are made under very tense circumstance and the justification is often controversial.
+The Washington Post started collecting the data of these incidents in 2015 and tried to appeal people to pay close attention to this issue. The Post obtained the data "by culling local news reports and by enforcement websites and social media, and by monitoring independent databases such as Killed by Police and Fatal Encounters"[3].
+The Post only documented those shootings in which "a police officer, in the line of duty, shoots and kills a civilian"[3].
+The incidents that were "deaths of people in police custody, fatal shootings by off-duty officer or non-shooting deaths" were not included[3].
+From the source of the data, we can conclude that the incidents recorded by the Post were really severe and threatened the life of people.
+We can assume these incidents have following properties:
+\begin{enumerate}
+    \item Each incident does not have influence on other incidents or they were independently to happen.
+    \item During a short period, the probability for one incident to occur is proportional to the length of time period. 
+\end{enumerate}
+Based on these assumption, we want to develop a comprehensive statistic model to predict the numbers of incidents happen in following time duration.
+We want to provide statistical analysis to indicate whether the shootings became more frequent or not.
+Our analysis can provide people with a better understanding of the fatal police shootings.
+
+\section{Model Description}
+From the assumptions we made in previous section, we use Poisson distribution to explain the occurrence the fatal police shootings in a given time duration. The number of incidents is denoted as $X$. We assume $\lambda$ is the average number of event per time and $t$ is the length of time period we observe, then the probability to have $k$ incidents happen will be
+\begin{equation*}
+P[X = n] = e^{-\lambda t}\cdot\frac{(\lambda t)^{n}}{n!}.
+\end{equation*}
+The expectation and variance of $X$ will be
+\begin{align*}
+	\text{E}[X] &= \lambda t,\\
+	\text{Var}[X]&= \lambda t.\\
+\end{align*}
+
+Our first step is to provide an estimation for parameter $\lambda$ based on the previous data.
+Then we perform a goodness-of-fit test to check whether our model is appropriate. We also take the influence of other factors like weekday into account.
+In this end, we carefully analyze the confidence interval for $\lambda$ and the prediction interval of $X$ in 2019.
+We compare our results with real observations and make an evaluation to our model.
+
+\subsection{Notations and Terminology}
+\section{Goodness-of-Fit Test}
+\section{Dependence on Other Factors}
+\section{Confidence Interval for $k$}
+
+\section{Prediction Interval}
+We denote the number of observations in following time $t$ as $Y$.
+To predict the number of observations in the following time period, we need to find the distribution of $\hat{Y}$ related to $Y$. From Poisson distribution, we know the expectation and variance for $Y$ with observation time $t$ are
+\begin{align*}
+	\text{E}[Y] &= \lambda t,\\
+	\text{Var}[Y] &= \lambda t.\\
+\end{align*}
+The estimator we chose for $\lambda$ is based the number of observations happened before we observe $Y$.
+We denote the length of observation $s$ and number of observations $X$, then
+\begin{equation*}
+	\hat{\lambda} = \frac{X}{s}.
+\end{equation*}
+We choose the estimator for $Y$ denoted $\hat{Y}$ to be $\hat{\lambda}t$.
+Note that
+\begin{align*}
+	\text{E}[Y-\hat{\lambda}t] &= \text{E}[Y]-\text{E}[X]\frac{t}{s}\\
+	&= \lambda t-\lambda s \cdot \frac{t}{s}\\
+	&= 0.
+\end{align*}
+If $\lambda t$ and $\lambda s$ are both large enough, the random variable $Y$ and $\hat{\lambda}t$ will both follow a normal distribution and their difference is also a normal distribution.
+The mean of $Y-\hat{\lambda}t$ is $0$, and for the variance
+\begin{align*}
+	\text{Var}[Y-\hat{\lambda}t] &= \text{Var}[Y]-\text{Var}[\hat{\lambda}t]\\
+	&= \lambda t+\frac{t^{2}}{s}\lambda.\\
+\end{align*}
+Here we use the fact that $X$ and $Y$ for different periods of observations are independent.
+This gives the derivation of Nelson's formula [1,(18)].
+Then we use estimated $\hat{\lambda}$ to replace $\lambda$ and 
+\begin{equation*}
+	\frac{Y-\hat{\lambda}t}{\sqrt{\hat{\lambda}\left(t+\frac{t^{2}}{s}\right)}} \sim N(0,1).
+\end{equation*}
+The prediction interval of $Y$ with \SI{95}{\percent} confidence will be 
+\begin{equation*}
+	\left[
+	\hat{\lambda}t-z_{0.025}\sqrt{\hat{\lambda}\left(t+\frac{t^{2}}{s}\right)},
+	\,
+	\hat{\lambda}t+z_{0.025}\sqrt{\hat{\lambda}\left(t+\frac{t^{2}}{s}\right)}
+	\right].
+\end{equation*}
+We then plug in the number of observations happened in 2015-2018 and get the estimated $\hat{\lambda}$ first,
+\[\hat{\lambda} = .\]
+
+\section{Discussion}
+\section{Summary}
+\section{Reference}
+[2] Police can use deadly force if they merely perceive a threat. \href{https://www.vox.com/identities/2016/8/13/17938226/police-shootings-killings-law-legal-standard-garner-graham-connor}{https://www.vox.com/identities/2016/8/13/17938226}
+
+[3] How The Washington Post is examining police shootings in the United States. \href{https://www.washingtonpost .com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.bb540299ce96}{https://www.washingtonpost .com/national}
+\end{document}
