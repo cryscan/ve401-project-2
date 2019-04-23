@@ -75,14 +75,16 @@ Fatal police shootings are the incidents that police shoot the suspect to death 
 	\item Independent databases, \\
 	such as Killed by Police and Fatal Encounters. 
 \end{enumerate}
-The Post only documented those shootings in which "a police officer, in the line of duty, shoots and kills a civilian"[3]. The incidents that were "deaths of people in police custody, fatal shootings by off-duty officer or non-shooting deaths" were not included[3]. The data recorded by the Post started form 2015 and is still updating right now. From the source of the data, we can conclude that the incidents recorded by the Post were really severe. These incidents that threatened innocent people's life possibly happened randomly. We can assume these incidents have following properties:
+The Post only documented those shootings in which ``a police officer, in the line of duty, shoots and kills a civilian"[3]. The incidents that were ``deaths of people in police custody, fatal shootings by off-duty officer or non-shooting deaths" were not included[3]. The data recorded by the Post started form 2015 and is still updating right now. From the source of the data, we can conclude that the incidents recorded by the Post were really severe. These incidents that threatened people's life possibly happened randomly. We can assume these incidents have following properties:
 \begin{enumerate}
     \item Each incident did not influence other incidents and they were independently to happen.
     \item During a short period, the probability for one incident to occur is proportional to the length of time period. 
 \end{enumerate}
 Based on these assumption, we want to develop a comprehensive statistic model to predict the numbers of incidents happen in following time duration. We want to provide statistical analysis to indicate whether the shootings become more frequent or not. Our analysis can provide people with a better understanding of the fatal police shootings.
 \section{Model Description}
-From the assumptions we made in previous section, we use Poisson distribution to explain the occurrence the fatal police shootings in a given time duration. The number of incidents is denoted as $X$. We assume $\lambda$ is the average number of event per time and $t$ is the length of time period we observe, then the probability to have $k$ incidents happen will be 
+From the assumptions we made in previous section, we use Poisson distribution to explain the occurrence of fatal police shootings in a given time duration. 
+We will call the fatal police shootings by incident for short. 
+The number of incidents is denoted as $X$. We assume $\lambda$ is the average number of incidents per day and $t$ is the number of days we observe, then the probability to have $n$ incidents happen will be 
 \[P[X = n] = e^{-\lambda t}\frac{(\lambda t)^{n}}{n!}.\]
 The expectation and variance of $X$ will be 
 \[
@@ -91,164 +93,203 @@ The expectation and variance of $X$ will be
         \text{Var}[X]&= \lambda t.\\
     \end{aligned}
 \]
+
 The data we got from the Post started from 2015 and ended in 2019 April. We will split them into two parts for estimation and prediction.
 
-Our first step is to provide an estimation for parameter $\lambda$ based on the the data from 2015 to 2018. Then we perform a goodness-of-fit test to check whether our model is appropriate for this period. We also take the influence of other factors like weekday into account. In this end, we carefully analyze the confidence interval for $\lambda$ and the prediction interval of $X$ in 2019. We compare our results with real observations and make an evaluation to our model. 
-\subsection{Notations and Terminology}
-\section{Goodness-of-Fit Test}
+Our first step is to provide an estimation for parameter $\lambda$ based on the the data from 2015 to 2018. 
+Then we perform a goodness-of-fit test to check whether our model is appropriate. 
+We also take the influence of other factors like weekday into account. 
+In this end, we carefully analyze the confidence interval for $\lambda$ and the prediction interval of $X$ in 2019. 
+We compare our results with real observations and make an evaluation to our model. 
+\subsection{Notations}
+To make our discussion clear, we summarize notations we will use in the following table.
+\begin{table}[htbp]
+	\centering
+	\caption{Notations in this report.}
+	\begin{tabular}{cc}
+		\hline
+		Notation & Meaning of the notation\\
+		\hline
+		$t$ & Number of observation days.\\
+		$n$ & Number of incidents happened in observation.\\
+		$X$ & Random variable for the number of incidents.\\
+		$X_{ob}$ & Observed number of incidents during observation.\\
+		$\bar{X}$ & Random variable for the number of incidents per day during observation.\\
+		$\bar{X}_{ob}$ & Observed number of numbers incidents per day during observation.\\
+		$\lambda$ & Parameter of Poisson distribution in the model, unit is $\text{day}^{-1}$.\\
+		$\hat{\lambda}$ & Estimated value of $\lambda$.\\
+		$k$ & Parameter of Poisson distribution in the model, $k = \lambda t$.\\
+		$\hat{k}$ & Estimated value of $k$.\\
+		$\chi_{\nu}^{2}$ & Chi-squared distribution with $\nu$ degrees of freedom.\\
+		\hline
+	\end{tabular}
+\end{table}
+\section{Estimation for Parameter in the Model}
 To summarize the data we got from the Washington Post, we plot a figure to show the number of incidents happened in a day with respect to the date. The data we covered here are from 2015 to 2018.
 \begin{figure}[htbp]
-    \centering
-    %\includegraphics[]{}
-    %Similar to Figure 1 in London Murder.
+	\centering
+	\includegraphics[width = \textwidth]{1.png}
     \caption{Number of incidents happened per day with respect to the date from 2015 to 2018.}
 \end{figure}
 
-From a general observation, we can conclude that the distirbution of incidents is approximatelly uniform. This motivates us to estimate parameter $\lambda$ in our model.
+From a general observation, the distirbution of incidents is approximately uniform. This motivates us to estimate parameter $\lambda$ in our model.
 
-We choose the unit of $\hat{\lambda}$ to be number per day and this will make the value neither too large or too small.
-\[
-    \begin{aligned}
-        \text{\# of incidents happened from 2015-2018} = \\
-        \text{\# of days from 2015-2018} = \\
-        \hat{\lambda} = \frac{\text{\# of incidents happened from 2015-2018}}{\text{\# of days from 2015-2018}} = \\
-    \end{aligned}
-\]
+We know that $E[X] = \lambda t$, so for a fixed time period, 
+\[\hat{\lambda} = \frac{X}{t}\]
+will be an unbiased estimator for $\lambda$.
 
-The null hypothesis we want to test is stated as follows.
+The unit of $\hat{\lambda}$ is $\text{day}^{-1}$ here and this will make the value neither too large nor too small. For this period of observation, we have 
+\begin{align*}
+	t &= 1461\text{ days},\\
+	X_{ob} &= 3943.
+\end{align*}
+Then the estimated value of $\lambda$ is
+\[\hat{\lambda} = \frac{X_{ob}}{t} \approx 2.70.\] 
+
+\section{Goodness-of-Fit Test}
+After we fit the parameter in our model, we want to further test whether our model is actually appropriate. We use a goodness-of-fit test here and the null hypothesis is
 \[H_{0}:\text{Poisson distribution is an appropriate model.}\]
+
 To make further quantitative discussion, we need to divide these days into different categories. 
 From the assumption of our model, the number of incidents happened in a day will also follow a Poisson distribution with $t = 1\text{ day}$. 
-And the observation in each day will be independent and identical. 
-So it will be an appropriate standard to use number of incidents happened in a day to form categories. 
+And the observation in each day is independent and identical. We use the number of incidents in a day to categorize these days.
 
-Since there are rare days that have incidents more than $?$, we decided to make $?$ categories. Now we need to calculate the probability for one day to fall into each category. Using Poisson distribution, we take number of incidents equal to $2$ as an example
-\[P[X_{i} = n] = \frac{(\hat{\lambda}t)^{n}}{n!}e^{-\hat{\lambda} t}.\]
+Since there is no day that has more than 10 incidents, we decide to make 11 categories. Now we need to calculate the probability for one day to fall into each category. Using Poisson distribution, we take number of incidents equal to $2$ as an example
+\[
+	\begin{aligned}
+		P[X = 2] &= \frac{(\hat{\lambda}\times 1)^{2}}{2!}e^{-\hat{\lambda} \times 1}\\
+		&= 0.245.\\
+	\end{aligned}
+\]
+
+So the probability to have two incidents in a day from our model is $0.245$.
 Based on similar calculation, the probability to have one day into each category is summarize in the following table:
 \begin{table}[htbp]
     \centering
     \caption{Probability to have $n$ incidents happened in a day predicted from our model.}
-    \begin{tabular}{cc}
-        \# of incidents & ?\\
-        Probability & ?\\
+	\begin{tabular}{c|cccccc}
+		\hline
+		\# of incidents, $n$ & 0 & 1 & 2 & 3 & 4 & 5\\
+		\hline
+		$P[X = n]$ & 0.067 & 0.182 & 0.245 & 0.220 & 0.149 & 0.080\\ 
+		\hline
+		\# of incidents, $n$  & 6 & 7 & 8 & 9 & $\geq$10 & \\
+		\hline
+		$P[X = n]$  & 0.036 & 0.014 & 0.005 & 0.0014 & 0.0005 & \\ 
+		\hline
     \end{tabular}
 \end{table}
 
-Since the data we obtained consist of four years from 2015 to 2018, we would like to do the test for four years together first and test each individual year. 
+In this test, the quantity that will be directly used is the number of days expected in each category. We also summarize them in the following table.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Probability to have $n$ incidents happened in a day predicted from our model.}
+	\begin{tabular}{c|cccccc}
+		\hline
+		\# of incidents, $n$ & 0 & 1 & 2 & 3 & 4 & 5\\
+		\hline
+		$E_{i}$ & 98.2 & 265.1 & 357.9 & 322.1 & 217.4 & 117.4\\ 
+		\hline
+		\# of incidents, $n$  & 6 & 7 & 8 & 9 & $\geq$10 & \\
+		\hline
+		$E_{i}$  & 52.8 & 20.4 & 6.9 & 2.1 & 0.73 & \\ 
+		\hline
+    \end{tabular}
+\end{table}
+
+We can notice that for all the categories such that $E_{i} \geq 5$ are 9 out of 11. This satisfies the requirement $E_{i} \geq 5$ for 80\% categories.
+
+The Pearson statistic will approximately follow a chi-squared distribution in this case. Since we have 11 categories in total, the chi-squared random variable has $11-1-1 = 9$ degree of freedom[4].
+\[X^{2}_{9} = \sum_{i = 0}^{9}
+\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi_{9}^{2}\]
+
+For out test, we choose the significance level $\alpha = 0.05$. If $X^{2}_{9} > \chi_{0.05,9}^{2}$, we will reject $H_{0}$ ; otherwise we will accept $H_{0}$.
+
+Since the data we obtain consist of four years from 2015 to 2018, we would like to do the test for four years together first and test one year to confirm our result. 
 \subsection{Test for Observations in Four Years Together}
-We summarize the numbers of days in each category observed in reality and estimated by our model in 2015-2018.
+We summarize the numbers of days in each category observed and estimated from 2015 to 2018 in the following table.
+\begin{table}[htbp]
+    \centering
+    \caption{Number of days in each category observed and esitmated from 2015 to 2018.}
+	\begin{tabular}{c|cccccc}
+		\hline
+        \# of incidents, $n$ & 0 & 1 & 2 & 3 & 4 & 5 \\
+		\hline
+		$O_{i}$ & 108 & 287 & 324 & 310 & 227 & 116\\
+		\hline
+		$E_{i}$ & 98.2 & 265.1 & 357.9 & 322.1 & 217.4 & 117.4\\ 
+		\hline
+		\hline
+		\# of incidents, $n$ & 6 & 7 & 8 & 9 & $\geq 10$ & \\
+		\hline
+		$O_{i}$ & 53 & 21 & 11 & 3 & 1 &\\
+		\hline
+		$E_{i}$  & 52.8 & 20.4 & 6.9 & 2.1 & 0.73 & \\ 
+		\hline 
+    \end{tabular}
+\end{table}
+
+We then calculate the Pearson statistic,
+\[
+	\begin{aligned}
+		X_{9}^{2} &= \sum_{i = 0}^{10}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
+		&= \frac{(108-98.2)^{2}}{98.2}+\cdots+\frac{(1-2.1)^{2}}{2.1}\\
+		&\approx 9.91.\\
+	\end{aligned}
+\] 
+However, we have $\chi^{2}_{0.05,10} = 16.92$, so since 
+\[X_{9}^{2} = 9.91 < 16.92 = \chi_{0.05,9}^{2}\]
+we accept $H_{0}$.
+\subsubsection{Test for Obervations in One Year}
+Although we do not reject $H_{0}$ from the data from 4 years together, we want to test the hypothesis individually for one year to make sure our model is appropriate. We randomly pick year 2015 for test. We will first summarize $O_{i}$ and $E_{i}$ in a table and then do the hypothesis test.
+
+
 \begin{table}[htbp]
     \centering
     \caption{Number of days in each category observed and esitmated in 2015-2018.}
-    \begin{tabular}{cc}
-        \# of incidents & ?\\
-        Observed \# of days & ?\\
-        Esitimated \# of days & ?\\
+	\begin{tabular}{c|cccccc}
+		\hline
+        \# of incidents, $n$ & 0 & 1 & 2 & 3 & 4  \\
+		\hline
+		$O_{i}$ & 24 & 73 & 87 & 69 & 55 \\
+		\hline
+		$E_{i}$ & 24.5 & 66.2 & 89.4 & 80.5 & 54.3 \\ 
+		\hline
+		\hline
+		\# of incidents, $n$ & 5 & 6 & 7 & 8 & $\geq 9$  \\
+		\hline
+		$O_{i}$ & 33 & 14 & 8 & 2 & 0\\
+		\hline
+		$E_{i}$ & 29.3 & 13.2 & 5.1 & 1.7 & 0.70\\ 
+		\hline 
     \end{tabular}
 \end{table}
 
-Now, we can perform the goodness-of-fit test to our model. The null hypothesis we have here is 
-\[H_{0}:\text{Posison distribution is an appropriate model.}\]
-We can notice that for each category, the expected value $E[X_{i}] > 5$, so the Pearson statistic will approximatelly follow a Chi-squared distribution with dregree of freedom equal to $k-1 = ?$.
-\[X^{2}_{k-1} = \sum_{i = 1}^{?}
-\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi_{k-1}^{2}\]
-We plug in the data we summarized in previous table and get 
-\[X_{k-1} = \]
-Form the table of $\chi^{2}$ distribution with degree of freedom equal to $k-1$, we need $X^{2}_{k-1} > \chi_{0.05,k-1}$ to reject $H_{0}$ with significance $0.05$. However, we only have $X_{k-1}^{2} = $, so we cannot reject $H_{0}$ and we need more detailed investigation. 
+Here, since $E_{8}$, $E_{9}$ and $E_{10}$ do not satisfies $E_{i} \geq 5$, we merge $E_{9}$ and $E_{10}$ into one category. 
+We apply the same method for all subsequent years. Then the degree of freedom for chi-squared random variable will be $10-1-1 = 8$.
 
-\subsubsection{Test for Obervations in Individual Year}
-We first establish the table for the total counts of days with different numbers of "fatal police shooting" incidents.
-\begin{table}[!htbp]
-\centering
-\begin{tabular}{|cccccccccccc||c|}
-\hline
-i&0&1&2&3&4&5&6&7&8&9&10&n\\
-\hline
-$Number(N_{i})$&108&287&324&310&227&116&53&21&11&3&1&1461\\
-\hline
-\end{tabular}
-\end{table}
+We then calculate the Pearson statistic as follows,
+\[
+	\begin{aligned}
+		X_{8}^{2} &= \sum_{i = 0}^{9}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
+		&= \frac{(24-24.5)^{2}}{24.5}+\cdots+\frac{(0-0.70)^{2}}{0.70}\\
+		&\approx 6.14.\\
+	\end{aligned}
+\] 
 
-Based on the collected data of Table 1, We can plot a bar chart with number of "fatal police shooting" per day as x-axis and the correpsonding total counts for different numbers per day as y-axis.
+For chi-squared distribution with degree 8, we have $\chi_{0.05,8}^{2} = 15.5$. So for the test of year 2015
+\[X_{8}^{2} = 6.14 < \chi_{0.05,8}^{2} = 15.5,\]
+so we cannot reject $H_{0}$ with significance 0.05.
 
-Figure 1 did not reject the Poisson distribution hypothesis since it is convex. Futhermore, we need more calculation to formally test our null hypothesis. Here we apply the Pearson Test for validation.
-
-The hypothesis is as follows:\\
-$H_{0}$: The occurence of police shooting in the U.S. follows a Poisson distribution with parameter k\\
-$H_{1}$: The occurence of police shooting in the U.S. dOes not follow a Poisson distribution with parameter k\\
-
-For a Poisson distribution, the estimator derived from the likelihood function is 
-\begin{align}
-\hat{k}&= \overline{X}\\&=\frac{0*108+1*287+2*324+3*310+4*227+5*116+6*53+7*21+8*11+9*3+10*1}{1461}\\&=2.6988
-\end{align}
-
-Now we can calculate the probability for different numbers. Take $P[X=1]$ as an example
-$$
-P[X=1] = \frac{k^{1}*e^{-k}}{1!}=0.1816
-$$
-
-Now we can establish the table for probability fot different numbers of occurence
-
-\begin{table}[!htbp]
-\centering
-\begin{tabular}{|cccccccccccc|}
-\hline
-i&0&1&2&3&4&5&6&7&8&9&$\geq$10\\
-\hline
-$P[X=i]$&0.067&0.182&0.245&0.220&0.149&0.080&0.036&0.014&0.005&0.001&0.001\\
-
-
-\hline
-\end{tabular}
-\end{table}
-
-
-
-According to the theoretical density, we can calculate the expected counts of occurence by the formula
-$$
-E_{i}= n * P[X=i] 
-$$
-
-Take $E_{1}$ as an example
-$$
-E_{1}= 1461*0.1816 =265.3
-$$
-
-Thus we can create the table for expected and observed counts.
-\begin{table}[!htbp]
-\centering
-\begin{tabular}{|cccccccccccc|}
-\hline
-i&0&1&2&3&4&5&6&7&8&9&10\\
-\hline
-Observed($O_{i}$)&108&287&324&310&227&116&53&21&11&3&1\\
-\hline
-Expected($E_{i}$)&97.887&265.902&357.945&321.42&217.689&116.88&52.596&20.454&7.305&1.461& 1.461\\
-\hline
-\end{tabular}
-\end{table}
-
-
-Then we calculate the statistics, note that $N$ = 11:
-$$
-X^{2}=\sum_{i=1}^N{\frac{(O_{i}-E_{i})^{2}}{E_i}}=\frac{(108-97.887)^2}{97.887}+...+\frac{(1-1.461)^2}{1.461}= 10.6187
-$$
-
-then follows a chi-squared distribution with $N$ -1 -$m$ = 9 degrees of freedom. We select the $P$ value for the test as 0.05. Since $\chi_{0.05,9}^{2}$ = 16.92. Hence, we have
-$$
-X^{2}=10.6187 < \chi_{0.05,9}^{2} = 16.92
-$$
-
-So we are unable to reject $H_{0}$ at thr 5\% level of significance.
-
-We conclude that there is no evidence that the occurrence of police shootings in the U.S. does not follow a Poisson distribution in the three years 2015-2018.
-
+In conclusion for this section, the hypothesis tests show that there is no significant evidence that the distribution of shooting incidents does not follow a Poisson distribution. We will use our model to do further calculation.
 \section{Dependence on Other Factors}
 \section{Confidence Interval for $k$}
 
 \section{Prediction Interval}
 We denote the number of observations in following time $t$ as $Y$.
-To predict the number of observations in the following time period, we need to find the distribution of $\hat{Y}$ related to $Y$. From Poisson distribution, we know the expectation and variance for $Y$ with observation time $t$ are
+To predict the number of observations in the following time period, we need to find the distribution of $\hat{Y}$ related to $Y$. 
+From Poisson distribution, we know the expectation and variance for $Y$ with observation time $t$ are
 \begin{align*}
 	\text{E}[Y] &= \lambda t,\\
 	\text{Var}[Y] &= \lambda t.\\
