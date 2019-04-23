@@ -66,42 +66,182 @@ Police Shootings in the United States}} \\
 \end{abstract}
 \newpage
 \tableofcontents
-\newpage
-\section{Introduction}
-Fatal police shootings are the incidents that police shoot the suspect to death in the line of duty.
-Constitutionally, police are allowed to shoot "to protect their life or the life of another innocent party" or "prevent a suspect from escaping if the suspect is thought to pose a threat to others"[2].
-Their decisions are made under very tense circumstance and the justification is often controversial.
-The Washington Post started collecting the data of these incidents in 2015 and tried to appeal people to pay close attention to this issue. The Post obtained the data "by culling local news reports and by enforcement websites and social media, and by monitoring independent databases such as Killed by Police and Fatal Encounters"[3].
-The Post only documented those shootings in which "a police officer, in the line of duty, shoots and kills a civilian"[3].
-The incidents that were "deaths of people in police custody, fatal shootings by off-duty officer or non-shooting deaths" were not included[3].
-From the source of the data, we can conclude that the incidents recorded by the Post were really severe and threatened the life of people.
-We can assume these incidents have following properties:
+\newpage\section{Introduction}
+Fatal police shootings are the incidents that police shoot the suspect to death in the line of duty. Constitutionally, police are allowed to shoot "to protect their life or the life of another innocent party" or "prevent a suspect from escaping if the suspect is thought to pose a threat to others"[2]. Their decisions are made under very tense circumstance and the justification is often controversial. The Washington Post started collecting the data of these incidents in 2015 and tried to appeal people to pay close attention to this issue. The Post obtained the data from four sources[3]: 
+\begin{enumerate}[(i)]
+    \item Local news reports, 
+    \item Enforcement websites, 
+    \item Social media,
+    \item Independent databases such as Killed by Police and Fatal Encounters. 
+\end{enumerate}
+The Post only documented those shootings in which "a police officer, in the line of duty, shoots and kills a civilian"[3]. The incidents that were "deaths of people in police custody, fatal shootings by off-duty officer or non-shooting deaths" were not included[3]. The data recorded by the Post started form 2015 and is still updating right now. From the source of the data, we can conclude that the incidents recorded by the Post were really severe. These incidents that threatened innocent people's life possibly happened randomly. We can assume these incidents have following properties:
 \begin{enumerate}
-    \item Each incident does not have influence on other incidents or they were independently to happen.
+    \item Each incident did not influence other incidents and they were independently to happen.
     \item During a short period, the probability for one incident to occur is proportional to the length of time period. 
 \end{enumerate}
-Based on these assumption, we want to develop a comprehensive statistic model to predict the numbers of incidents happen in following time duration.
-We want to provide statistical analysis to indicate whether the shootings became more frequent or not.
-Our analysis can provide people with a better understanding of the fatal police shootings.
-
+Based on these assumption, we want to develop a comprehensive statistic model to predict the numbers of incidents happen in following time duration. We want to provide statistical analysis to indicate whether the shootings become more frequent or not. Our analysis can provide people with a better understanding of the fatal police shootings.
 \section{Model Description}
-From the assumptions we made in previous section, we use Poisson distribution to explain the occurrence the fatal police shootings in a given time duration. The number of incidents is denoted as $X$. We assume $\lambda$ is the average number of event per time and $t$ is the length of time period we observe, then the probability to have $k$ incidents happen will be
-\begin{equation*}
-P[X = n] = e^{-\lambda t}\cdot\frac{(\lambda t)^{n}}{n!}.
-\end{equation*}
-The expectation and variance of $X$ will be
-\begin{align*}
-	\text{E}[X] &= \lambda t,\\
-	\text{Var}[X]&= \lambda t.\\
-\end{align*}
+From the assumptions we made in previous section, we use Poisson distribution to explain the occurrence the fatal police shootings in a given time duration. The number of incidents is denoted as $X$. We assume $\lambda$ is the average number of event per time and $t$ is the length of time period we observe, then the probability to have $k$ incidents happen will be 
+\[P[X = n] = e^{-\lambda t}\frac{(\lambda t)^{n}}{n!}.\]
+The expectation and variance of $X$ will be 
+\[
+    \begin{aligned}
+        \text{E}[X] &= \lambda t,\\
+        \text{Var}[X]&= \lambda t.\\
+    \end{aligned}
+\]
+The data we got from the Post started from 2015 and ended in 2019 April. We will split them into two parts for estimation and prediction.
 
-Our first step is to provide an estimation for parameter $\lambda$ based on the previous data.
-Then we perform a goodness-of-fit test to check whether our model is appropriate. We also take the influence of other factors like weekday into account.
-In this end, we carefully analyze the confidence interval for $\lambda$ and the prediction interval of $X$ in 2019.
-We compare our results with real observations and make an evaluation to our model.
-
+Our first step is to provide an estimation for parameter $\lambda$ based on the the data from 2015 to 2018. Then we perform a goodness-of-fit test to check whether our model is appropriate for this period. We also take the influence of other factors like weekday into account. In this end, we carefully analyze the confidence interval for $\lambda$ and the prediction interval of $X$ in 2019. We compare our results with real observations and make an evaluation to our model. 
 \subsection{Notations and Terminology}
 \section{Goodness-of-Fit Test}
+To summarize the data we got from the Washington Post, we plot a figure to show the number of incidents happened in a day with respect to the date. The data we covered here are from 2015 to 2018.
+\begin{figure}[htbp]
+    \centering
+    %\includegraphics[]{}
+    %Similar to Figure 1 in London Murder.
+    \caption{Number of incidents happened per day with respect to the date from 2015 to 2018.}
+\end{figure}
+
+From a general observation, we can conclude that the distirbution of incidents is approximatelly uniform. This motivates us to estimate parameter $\lambda$ in our model.
+
+We choose the unit of $\hat{\lambda}$ to be number per day and this will make the value neither too large or too small.
+\[
+    \begin{aligned}
+        \text{\# of incidents happened from 2015-2018} = \\
+        \text{\# of days from 2015-2018} = \\
+        \hat{\lambda} = \frac{\text{\# of incidents happened from 2015-2018}}{\text{\# of days from 2015-2018}} = \\
+    \end{aligned}
+\]
+
+The null hypothesis we want to test is stated as follows.
+\[H_{0}:\text{Poisson distribution is an appropriate model.}\]
+To make further quantitative discussion, we need to divide these days into different categories. 
+From the assumption of our model, the number of incidents happened in a day will also follow a Poisson distribution with $t = 1\text{ day}$. 
+And the observation in each day will be independent and identical. 
+So it will be an appropriate standard to use number of incidents happened in a day to form categories. 
+
+Since there are rare days that have incidents more than $?$, we decided to make $?$ categories. Now we need to calculate the probability for one day to fall into each category. Using Poisson distribution, we take number of incidents equal to $2$ as an example
+\[P[X_{i} = n] = \frac{(\hat{\lambda}t)^{n}}{n!}e^{-\hat{\lambda} t}.\]
+Based on similar calculation, the probability to have one day into each category is summarize in the following table:
+\begin{table}[htbp]
+    \centering
+    \caption{Probability to have $n$ incidents happened in a day predicted from our model.}
+    \begin{tabular}{cc}
+        \# of incidents & ?\\
+        Probability & ?\\
+    \end{tabular}
+\end{table}
+
+Since the data we obtained consist of four years from 2015 to 2018, we would like to do the test for four years together first and test each individual year. 
+\subsection{Test for Observations in Four Years Together}
+We summarize the numbers of days in each category observed in reality and estimated by our model in 2015-2018.
+\begin{table}[htbp]
+    \centering
+    \caption{Number of days in each category observed and esitmated in 2015-2018.}
+    \begin{tabular}{cc}
+        \# of incidents & ?\\
+        Observed \# of days & ?\\
+        Esitimated \# of days & ?\\
+    \end{tabular}
+\end{table}
+
+Now, we can perform the goodness-of-fit test to our model. The null hypothesis we have here is 
+\[H_{0}:\text{Posison distribution is an appropriate model.}\]
+We can notice that for each category, the expected value $E[X_{i}] > 5$, so the Pearson statistic will approximatelly follow a Chi-squared distribution with dregree of freedom equal to $k-1 = ?$.
+\[X^{2}_{k-1} = \sum_{i = 1}^{?}
+\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi_{k-1}^{2}\]
+We plug in the data we summarized in previous table and get 
+\[X_{k-1} = \]
+Form the table of $\chi^{2}$ distribution with degree of freedom equal to $k-1$, we need $X^{2}_{k-1} > \chi_{0.05,k-1}$ to reject $H_{0}$ with significance $0.05$. However, we only have $X_{k-1}^{2} = $, so we cannot reject $H_{0}$ and we need more detailed investigation. 
+
+\subsubsection{Test for Obervations in Individual Year}
+We first establish the table for the total counts of days with different numbers of "fatal police shooting" incidents.
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{|cccccccccccc||c|}
+\hline
+i&0&1&2&3&4&5&6&7&8&9&10&n\\
+\hline
+$Number(N_{i})$&108&287&324&310&227&116&53&21&11&3&1&1461\\
+\hline
+\end{tabular}
+\end{table}
+
+Based on the collected data of Table 1, We can plot a bar chart with number of "fatal police shooting" per day as x-axis and the correpsonding total counts for different numbers per day as y-axis.
+
+Figure 1 did not reject the Poisson distribution hypothesis since it is convex. Futhermore, we need more calculation to formally test our null hypothesis. Here we apply the Pearson Test for validation.
+
+The hypothesis is as follows:\\
+$H_{0}$: The occurence of police shooting in the U.S. follows a Poisson distribution with parameter k\\
+$H_{1}$: The occurence of police shooting in the U.S. dOes not follow a Poisson distribution with parameter k\\
+
+For a Poisson distribution, the estimator derived from the likelihood function is 
+\begin{align}
+\hat{k}&= \overline{X}\\&=\frac{0*108+1*287+2*324+3*310+4*227+5*116+6*53+7*21+8*11+9*3+10*1}{1461}\\&=2.6988
+\end{align}
+
+Now we can calculate the probability for different numbers. Take $P[X=1]$ as an example
+$$
+P[X=1] = \frac{k^{1}*e^{-k}}{1!}=0.1816
+$$
+
+Now we can establish the table for probability fot different numbers of occurence
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{|cccccccccccc|}
+\hline
+i&0&1&2&3&4&5&6&7&8&9&$\geq$10\\
+\hline
+$P[X=i]$&0.067&0.182&0.245&0.220&0.149&0.080&0.036&0.014&0.005&0.001&0.001\\
+
+
+\hline
+\end{tabular}
+\end{table}
+
+
+
+According to the theoretical density, we can calculate the expected counts of occurence by the formula
+$$
+E_{i}= n * P[X=i] 
+$$
+
+Take $E_{1}$ as an example
+$$
+E_{1}= 1461*0.1816 =265.3
+$$
+
+Thus we can create the table for expected and observed counts.
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{|cccccccccccc|}
+\hline
+i&0&1&2&3&4&5&6&7&8&9&10\\
+\hline
+Observed($O_{i}$)&108&287&324&310&227&116&53&21&11&3&1\\
+\hline
+Expected($E_{i}$)&97.887&265.902&357.945&321.42&217.689&116.88&52.596&20.454&7.305&1.461& 1.461\\
+\hline
+\end{tabular}
+\end{table}
+
+
+Then we calculate the statistics, note that $N$ = 11:
+$$
+X^{2}=\sum_{i=1}^N{\frac{(O_{i}-E_{i})^{2}}{E_i}}=\frac{(108-97.887)^2}{97.887}+...+\frac{(1-1.461)^2}{1.461}= 10.6187
+$$
+
+then follows a chi-squared distribution with $N$ -1 -$m$ = 9 degrees of freedom. We select the $P$ value for the test as 0.05. Since $\chi_{0.05,9}^{2}$ = 16.92. Hence, we have
+$$
+X^{2}=10.6187 < \chi_{0.05,9}^{2} = 16.92
+$$
+
+So we are unable to reject $H_{0}$ at thr 5\% level of significance.
+
+We conclude that there is no evidence that the occurrence of police shootings in the U.S. does not follow a Poisson distribution in the three years 2015-2018.
+
 \section{Dependence on Other Factors}
 \section{Confidence Interval for $k$}
 
