@@ -240,6 +240,20 @@ We then calculate the Pearson statistic,
 However, we have $\chi^{2}_{0.05,10} = 16.92$, so since 
 \[X_{9}^{2} = 9.91 < 16.92 = \chi_{0.05,9}^{2}\]
 we accept $H_{0}$.
+
+We also plot number of days in each category as a histogram for both the real case and predicted result. Observed case is shown in Figure 2 and predicted data is shown in Figure 3.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width = \textwidth]{4-years.png}
+	\caption{Number of days in each category in observation for 4 years together.}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width = \textwidth]{poisson.png}
+	\caption{Number of days in each category from prediction for 4 years together.}
+\end{figure}
+
+From observation, we can notice that there is no significant difference between these two distributions. We confirm the result that Poisson distribution is an appropriate model.
 \subsubsection{Test for Obervations in One Year}
 Although we do not reject $H_{0}$ from the data from 4 years together, we want to test the hypothesis individually for one year to make sure our model is appropriate. We randomly pick year 2015 for test. We will first summarize $O_{i}$ and $E_{i}$ in a table and then do the hypothesis test.
 
@@ -283,6 +297,115 @@ so we cannot reject $H_{0}$ with significance 0.05.
 
 In conclusion for this section, the hypothesis tests show that there is no significant evidence that the distribution of shooting incidents does not follow a Poisson distribution. We will use our model to do further calculation.
 \section{Dependence on Other Factors}
+In previous section, we confirm that our model is appropriate, but Poisson distribution assumes that the happening of police shooting is uniformly random. 
+
+However, we think this may not be a complete description. 
+The probability for an incident to happen may depend on weekday, but for the observation in a whole year, we approximately have number of different weekdays equal. 
+So we wank to check the influence of other factors in this section and make the description of our model more appropriate. 
+\subsection{Dependence on Weekdays}
+We want to check whether the probability for an incident to happen depends on weekdays. We first plot the number of incidents happened in each weekday to have a general observation. The data we use here is the data for 4 years from 2015 to 2018 together.
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width = 10cm]{weekdays.png}
+	\caption{Number of incidents in each weekday for four years together.}
+\end{figure}
+
+From general observation, we cannot give a conclusion directly. So we will do a null hypothesis test to check the dependence. The null hypothesis test we formulated is 
+\[H_{0}:\text{ The probability for an incident ot happen does not depend on weekday.}\]
+
+We decide to choose significance level $\alpha = 0.05$ for our test.
+
+If the null hypothesis is true, the probability for an incident to happen on each weekday will be equal, 
+\[P_{1} = \cdots = P_{7} = \frac{1}{7}.\]
+
+In these four years, there are 208  Tuesdays and Wednesdays; there are 209 other weekdays. 
+Since the difference is relative small, we ignore the difference of the numbers of weekdays.
+So if the null hypothesis holds, we will have expected number of incidents happened in each weekday equal to 
+\[E_{i} = P_{i} \times N = \frac{N}{7}.\]
+
+In the following table, we list the number of incidents happened in each weekday by observation and by prediction. 
+Here we use the fact the total number of incidents is $N = 3943$.
+\begin{table}[htbp]
+	\centering
+	\caption{Number of incidents happened in each weekday by observation and by prediction.}
+	\begin{tabular}{c|ccccccc}
+		\hline
+		Weekday & Mon. & Tue. & Wed. & Thur. & Fri. & Sat. & Sun.\\
+		\hline
+		$O_{i}$ & 517 & 586 & 616 & 573 & 572 & 518 & 561\\
+		\hline
+		$E_{i}$ & 563.29 & 563.29 & 563.29 & 563.29 & 563.29 & 563.29 & 563.29\\
+		\hline
+	\end{tabular}
+\end{table}
+
+We can notice that for each category $E_{i} > 5$, so the Pearson statistic 
+\[X^{2}_{6} = \sum_{i = 1}^{7}\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi^{2}_{6}\]
+will approximately follow a chi-squared distribution with $7-1 = 6$ degrees of freedom. 
+To reject the null hypothesis with significance level $\alpha = 0.05$, we need the Pearson statistic satisfies
+\[X^{2}_{6} > \chi^{2}_{0.05,6} = 12.592.\]
+
+From calculation, 
+\[
+	\begin{aligned}
+		X^{2}_{6} &= \frac{(517-563.29)^{2}}{563.29}+\cdots+\frac{(561-563.29)^{2}}{563.29}\\
+		&\approx 13.605.\\
+	\end{aligned}
+\]
+
+So we have $X^{2}_{6} > \chi^{2}_{0.05,6}$ and we can reject $H_{0}$.
+
+From our test, we can conclude that there is evidence that the probability for an incident to happen is not independent to weekday. In other word, the probability for an incident to happen will probably depend on weekday.
+
+\subsection{Probability for Incidents to happen on Wednesdays and Mondays}
+To make our conclusion more appropriate, we want to check the probability for an incident to happen on two weekdays. 
+We choose Wednesday and Monday to do the test because they have maximum and minimum numbers of incidents happened.
+
+Here we choose to summarize the number of incidents happened per day for Wednesday and Monday. We also plot the distribution in the following diagram.
+\iffalse
+\begin{table}[htbp]
+	\centering
+	\caption{Number of incidents happened per day for Wednesday and Monday.}
+	\begin{tabular}
+	\end{tabular}
+\end{table}
+\begin{figure}[htbp]
+	\centering
+	\caption{Number of incidents happened per day for Wednesday.}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+	\caption{Number of incidents happened per day for Wednesday.}
+\end{figure}
+\fi
+
+From general observation, the distributions of incidents per day seem to be the same. However, we need to do a hypothesis test to make an appropriate conclusion.
+
+Here we omit the part to check these two distributions are both Poisson distribution with significance level $\alpha = 0.05$. From our test, there are no evident that these two distributions are not Poisson distributions.
+
+Our focus will be whether these two distributions are different. The null hypothesis we have is 
+\[H_{0}:\text{ These two distributions are the same Poisson distribution.}\]
+The significance level we choose here is $\alpha = 0.05$.
+
+If this null hypothesis is true, they will have the same parameter, i.e.,
+\[\lambda_{1} = \lambda_{2}.\]
+Then for the estimators we use, they will have the relation 
+\[E[\hat{\lambda_{1}}-\hat{\lambda_{2}}] = 0,\]
+since $\hat{\lambda_{1}}$ and $\hat{\lambda_{2}}$ are unbiased estimators for $\lambda_{1}$ and $\lambda_{2}$.
+
+The samples we use in this test is large enough, then from Central Limit theorem[4] we have 
+\[\frac{\hat{\lambda_{1}}-\hat{\lambda_{2}}}{\sqrt{\text{Var }(\hat{\lambda_{1}-\hat{\lambda_{2}}})}}\sim N(0,1),\]
+here $N(0,1)$ is s standard normal distribution.
+
+The variance of variable $\hat{\lambda_{1}}-\hat{\lambda_{2}}$ is estimated from observation, an unbiased estimator is derived from
+\[
+	\begin{aligned}
+		\text{Var }((\hat{\lambda_{1}}-\hat{\lambda_{2}}) &= \text{Var }(\frac{X_{1}}{t_{1}}-\frac{X_{2}}{t_{2}})\\
+		&= \frac{1}{t_{1}^{2}}\times \text{Var }X_{1}+\frac{1}{t_{2}^{2}}\times \text{Var }X_{2}\\
+		&= \lambda_{1} t_{1}+\lambda_{2} t_{2}.
+	\end{aligned}
+\]
+Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}t_{1}+\hat{\lambda_{2}}t_{2}$ to estimate $\text{Var }(\hat{\lambda_{1}}-\hat{\lambda_{2}})$.
 \section{Confidence Interval for $k$}
 
 \section{Prediction Interval}
