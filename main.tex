@@ -378,11 +378,24 @@ To make our conclusion more appropriate, we want to check the probability for an
 We choose Wednesday and Monday to do the test because they have maximum and minimum numbers of incidents happened.
 
 Here we choose to summarize the number of incidents happened per day for Wednesday and Monday. We also plot the distribution in the following diagram.
+We can estimate $\lambda_{1}$ for the distribution of incidents on Wednesdays as 
+\begin{equation*}
+N_{1} = 616,\ t_{1} = 209,\ \hat{\lambda_{1}} = \frac{N_{1}}{\lambda_{1}} \approx 2.95.
+\end{equation*}
+We also estimated $\lambda_{2}$ for the distribution of incidents on Mondays as
+\begin{equation*}
+	N_{2} = 517,\ t_{2} = 208,\ \hat{\lambda_{1}} = \frac{N_{2}}{\lambda_{2}} \approx 2.49.
+\end{equation*}
 \iffalse
 \begin{table}[htbp]
 	\centering
 	\caption{Number of incidents happened per day for Wednesday and Monday.}
 	\begin{tabular}
+		\hline
+		\# of Incidents & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
+		\hline
+		$O_{i}$ & 8 & 37 & 45 & 51 & 27 & 18 & 18 & 4\\
+		$E_{i}$ & 
 	\end{tabular}
 \end{table}
 \begin{figure}[htbp]
