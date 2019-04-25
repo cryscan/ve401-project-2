@@ -84,14 +84,14 @@ Based on these assumption, we want to develop a comprehensive statistic model to
 From the assumptions we made in previous section, we use Poisson distribution to explain the occurrence of fatal police shootings in a given time duration. 
 We will call the fatal police shootings by incident for short. 
 The number of incidents is denoted as $X$. We assume $\lambda$ is the average number of incidents per day and $t$ is the number of days we observe, then the probability to have $n$ incidents happen will be 
-\[P[X = n] = e^{-\lambda t}\frac{(\lambda t)^{n}}{n!}.\]
-The expectation and variance of $X$ will be 
-\[
-    \begin{aligned}
-        \text{E}[X] &= \lambda t,\\
-        \text{Var}[X]&= \lambda t.\\
-    \end{aligned}
-\]
+\begin{equation*}
+	P[X = n] = e^{-\lambda t}\cdot\frac{(\lambda t)^{n}}{n!}.
+\end{equation*}
+The expectation and variance of $X$ will be
+\begin{align*}
+	\text{E}[X] &= \lambda t, \\
+	\text{Var}[X] &= \lambda t.
+\end{align*}
 
 The data we got from the Post started from 2015 and ended in 2019 April. We will split them into two parts for estimation and prediction.
 
@@ -100,15 +100,15 @@ Then we perform a goodness-of-fit test to check whether our model is appropriate
 We also take the influence of other factors like weekday into account. 
 In this end, we carefully analyze the confidence interval for $\lambda$ and the prediction interval of $X$ in 2019. 
 We compare our results with real observations and make an evaluation to our model. 
+
 \subsection{Notations}
-To make our discussion clear, we summarize notations we will use in the following table.
+To make our discussion clear, we summarize notations we will use in table \ref{tab:notation}.
 \begin{table}[htbp]
 	\centering
-	\caption{Notations in this report.}
-	\begin{tabular}{cc}
-		\hline
-		Notation & Meaning of the notation\\
-		\hline
+	\begin{tabular}{cl}
+		\toprule
+		Notation & \multicolumn{1}{c}{Description}\\
+		\midrule
 		$t$ & Number of observation days.\\
 		$n$ & Number of incidents happened in observation.\\
 		$X$ & Random variable for the number of incidents.\\
@@ -120,9 +120,12 @@ To make our discussion clear, we summarize notations we will use in the followin
 		$k$ & Parameter of Poisson distribution in the model, $k = \lambda t$.\\
 		$\hat{k}$ & Estimated value of $k$.\\
 		$\chi_{\nu}^{2}$ & Chi-squared distribution with $\nu$ degrees of freedom.\\
-		\hline
+		\bottomrule
 	\end{tabular}
+	\caption{Notations in this report}
+	\label{tab:notation}
 \end{table}
+
 \section{Estimation for Parameter in the Model}
 To summarize the data we got from the Washington Post, we plot a figure to show the number of incidents happened in a day with respect to the date. The data we covered here are from 2015 to 2018.
 \begin{figure}[htbp]
@@ -131,10 +134,12 @@ To summarize the data we got from the Washington Post, we plot a figure to show 
     \caption{Number of incidents happened per day with respect to the date from 2015 to 2018.}
 \end{figure}
 
-From a general observation, the distirbution of incidents is approximately uniform. This motivates us to estimate parameter $\lambda$ in our model.
+From a general observation, the distribution of incidents is approximately uniform. This motivates us to estimate parameter $\lambda$ in our model.
 
-We know that $E[X] = \lambda t$, so for a fixed time period, 
-\[\hat{\lambda} = \frac{X}{t}\]
+We know that $\text{E}[X] = \lambda t$, so for a fixed time period,
+\begin{equation*}
+	\hat{\lambda} = \frac{X}{t}
+\end{equation*}
 will be an unbiased estimator for $\lambda$.
 
 The unit of $\hat{\lambda}$ is $\text{day}^{-1}$ here and this will make the value neither too large nor too small. For this period of observation, we have 
@@ -143,29 +148,31 @@ The unit of $\hat{\lambda}$ is $\text{day}^{-1}$ here and this will make the val
 	X_{ob} &= 3943.
 \end{align*}
 Then the estimated value of $\lambda$ is
-\[\hat{\lambda} = \frac{X_{ob}}{t} \approx 2.70.\] 
+\begin{equation*}
+	\hat{\lambda} = \frac{X_{ob}}{t} \approx 2.70.
+\end{equation*}
 
 \section{Goodness-of-Fit Test}
 After we fit the parameter in our model, we want to further test whether our model is actually appropriate. We use a goodness-of-fit test here and the null hypothesis is
-\[H_{0}:\text{Poisson distribution is an appropriate model.}\]
+\begin{equation*}
+	H_{0}:\text{Poisson distribution is an appropriate model.}
+\end{equation*}
 
 To make further quantitative discussion, we need to divide these days into different categories. 
 From the assumption of our model, the number of incidents happened in a day will also follow a Poisson distribution with $t = 1\text{ day}$. 
 And the observation in each day is independent and identical. We use the number of incidents in a day to categorize these days.
 
 Since there is no day that has more than 10 incidents, we decide to make 11 categories. Now we need to calculate the probability for one day to fall into each category. Using Poisson distribution, we take number of incidents equal to $2$ as an example
-\[
-	\begin{aligned}
-		P[X = 2] &= \frac{(\hat{\lambda}\times 1)^{2}}{2!}e^{-\hat{\lambda} \times 1}\\
-		&= 0.245.\\
-	\end{aligned}
-\]
+\begin{align*}
+	P[X = 2] &= \frac{\left(\hat{\lambda}\times 1\right)^{2}}{2!}
+	e^{-\hat{\lambda} \times 1} \\
+	&= 0.245.\\
+\end{align*}
 
 So the probability to have two incidents in a day from our model is $0.245$.
 Based on similar calculation, the probability to have one day into each category is summarize in the following table:
 \begin{table}[htbp]
     \centering
-    \caption{Probability to have $n$ incidents happened in a day predicted from our model.}
 	\begin{tabular}{c|cccccc}
 		\hline
 		\# of incidents, $n$ & 0 & 1 & 2 & 3 & 4 & 5\\
@@ -177,13 +184,13 @@ Based on similar calculation, the probability to have one day into each category
 		$P[X = n]$  & 0.036 & 0.014 & 0.005 & 0.0014 & 0.0005 & \\ 
 		\hline
     \end{tabular}
+	\caption{Probability to have $n$ incidents happened in a day predicted from our model.}
 \end{table}
 
 In this test, the quantity that will be directly used is the number of days expected in each category. We also summarize them in the following table.
 
 \begin{table}[htbp]
     \centering
-    \caption{Probability to have $n$ incidents happened in a day predicted from our model.}
 	\begin{tabular}{c|cccccc}
 		\hline
 		\# of incidents, $n$ & 0 & 1 & 2 & 3 & 4 & 5\\
@@ -195,6 +202,7 @@ In this test, the quantity that will be directly used is the number of days expe
 		$E_{i}$  & 52.8 & 20.4 & 6.9 & 2.1 & 0.73 & \\ 
 		\hline
     \end{tabular}
+	\caption{Probability to have $n$ incidents happened in a day predicted from our model.}
 \end{table}
 
 We can notice that for all the categories such that $E_{i} \geq 5$ are 9 out of 11. This satisfies the requirement $E_{i} \geq 5$ for 80\% categories.
@@ -206,11 +214,11 @@ The Pearson statistic will approximately follow a chi-squared distribution in th
 For out test, we choose the significance level $\alpha = 0.05$. If $X^{2}_{9} > \chi_{0.05,9}^{2}$, we will reject $H_{0}$ ; otherwise we will accept $H_{0}$.
 
 Since the data we obtain consist of four years from 2015 to 2018, we would like to do the test for four years together first and test one year to confirm our result. 
+
 \subsection{Test for Observations in Four Years Together}
 We summarize the numbers of days in each category observed and estimated from 2015 to 2018 in the following table.
 \begin{table}[htbp]
     \centering
-    \caption{Number of days in each category observed and esitmated from 2015 to 2018.}
 	\begin{tabular}{c|cccccc}
 		\hline
         \# of incidents, $n$ & 0 & 1 & 2 & 3 & 4 & 5 \\
@@ -227,6 +235,7 @@ We summarize the numbers of days in each category observed and estimated from 20
 		$E_{i}$  & 52.8 & 20.4 & 6.9 & 2.1 & 0.73 & \\ 
 		\hline 
     \end{tabular}
+	\caption{Number of days in each category observed and estimated from 2015 to 2018.}
 \end{table}
 
 We then calculate the Pearson statistic,
@@ -254,13 +263,12 @@ We also plot number of days in each category as a histogram for both the real ca
 \end{figure}
 
 From observation, we can notice that there is no significant difference between these two distributions. We confirm the result that Poisson distribution is an appropriate model.
-\subsubsection{Test for Obervations in One Year}
+\subsubsection{Test for Observations in One Year}
 Although we do not reject $H_{0}$ from the data from 4 years together, we want to test the hypothesis individually for one year to make sure our model is appropriate. We randomly pick year 2015 for test. We will first summarize $O_{i}$ and $E_{i}$ in a table and then do the hypothesis test.
 
 
 \begin{table}[htbp]
     \centering
-    \caption{Number of days in each category observed and esitmated in 2015-2018.}
 	\begin{tabular}{c|cccccc}
 		\hline
         \# of incidents, $n$ & 0 & 1 & 2 & 3 & 4  \\
@@ -277,22 +285,23 @@ Although we do not reject $H_{0}$ from the data from 4 years together, we want t
 		$E_{i}$ & 29.3 & 13.2 & 5.1 & 1.7 & 0.70\\ 
 		\hline 
     \end{tabular}
+	\caption{Number of days in each category observed and estimated in 2015-2018.}
 \end{table}
 
 Here, since $E_{8}$, $E_{9}$ and $E_{10}$ do not satisfies $E_{i} \geq 5$, we merge $E_{9}$ and $E_{10}$ into one category. 
 We apply the same method for all subsequent years. Then the degree of freedom for chi-squared random variable will be $10-1-1 = 8$.
 
 We then calculate the Pearson statistic as follows,
-\[
-	\begin{aligned}
-		X_{8}^{2} &= \sum_{i = 0}^{9}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
-		&= \frac{(24-24.5)^{2}}{24.5}+\cdots+\frac{(0-0.70)^{2}}{0.70}\\
-		&\approx 6.14.\\
-	\end{aligned}
-\] 
+\begin{align*}
+	X_{8}^{2} &= \sum_{i = 0}^{9}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
+	&= \frac{(24-24.5)^{2}}{24.5}+\cdots+\frac{(0-0.70)^{2}}{0.70}\\
+	&\approx 6.14.\\
+\end{align*}
 
 For chi-squared distribution with degree 8, we have $\chi_{0.05,8}^{2} = 15.5$. So for the test of year 2015
-\[X_{8}^{2} = 6.14 < \chi_{0.05,8}^{2} = 15.5,\]
+\begin{equation*}
+	X_{8}^{2} = 6.14 < \chi_{0.05,8}^{2} = 15.5,
+\end{equation*}
 so we cannot reject $H_{0}$ with significance 0.05.
 
 In conclusion for this section, the hypothesis tests show that there is no significant evidence that the distribution of shooting incidents does not follow a Poisson distribution. We will use our model to do further calculation.
@@ -310,50 +319,57 @@ We want to check whether the probability for an incident to happen depends on we
 	\caption{Number of incidents in each weekday for four years together.}
 \end{figure}
 
-From general observation, we cannot give a conclusion directly. So we will do a null hypothesis test to check the dependence. The null hypothesis test we formulated is 
-\[H_{0}:\text{ The probability for an incident ot happen does not depend on weekday.}\]
+From general observation, we cannot give a conclusion directly. So we will do a null hypothesis test to check the dependence. The null hypothesis test we formulated is
+\begin{equation*}
+	H_{0}:\text{ The probability for an incident ot happen does not depend on weekday.}
+\end{equation*} 
+
 
 We decide to choose significance level $\alpha = 0.05$ for our test.
 
-If the null hypothesis is true, the probability for an incident to happen on each weekday will be equal, 
-\[P_{1} = \cdots = P_{7} = \frac{1}{7}.\]
+If the null hypothesis is true, the probability for an incident to happen on each weekday will be equal,
+\begin{equation*}
+	P_{1} = \cdots = P_{7} = \frac{1}{7}.
+\end{equation*}
 
 In these four years, there are 208  Tuesdays and Wednesdays; there are 209 other weekdays. 
 Since the difference is relative small, we ignore the difference of the numbers of weekdays.
-So if the null hypothesis holds, we will have expected number of incidents happened in each weekday equal to 
-\[E_{i} = P_{i} \times N = \frac{N}{7}.\]
+So if the null hypothesis holds, we will have expected number of incidents happened in each weekday equal to
+\begin{equation*}
+	E_{i} = P_{i} \times N = \frac{N}{7}.
+\end{equation*}
 
 In the following table, we list the number of incidents happened in each weekday by observation and by prediction. 
 Here we use the fact the total number of incidents is $N = 3943$.
 \begin{table}[htbp]
 	\centering
-	\caption{Number of incidents happened in each weekday by observation and by prediction.}
 	\begin{tabular}{c|ccccccc}
 		\hline
 		Weekday & Mon. & Tue. & Wed. & Thur. & Fri. & Sat. & Sun.\\
 		\hline
-		$O_{i}$ & 517 & 586 & 616 & 573 & 572 & 518 & 561\\
-		\hline
+		$O_{i}$ & 517 & 586 & 616 & 573 & 572 & 518 & 561\\ \hline
 		$E_{i}$ & 563.29 & 563.29 & 563.29 & 563.29 & 563.29 & 563.29 & 563.29\\
 		\hline
 	\end{tabular}
+	\caption{Number of incidents happened in each weekday by observation and by prediction}
 \end{table}
 
-We can notice that for each category $E_{i} > 5$, so the Pearson statistic 
-\[X^{2}_{6} = \sum_{i = 1}^{7}\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi^{2}_{6}\]
-will approximately follow a chi-squared distribution with $7-1 = 6$ degrees of freedom. 
+We notice that for each category $E_{i} > 5$, so the Pearson statistic
+\begin{equation*}
+	X^{2}_{6} = \sum_{i = 1}^{7}\frac{(O_{i} - E_{i})^{2}}{E_{i}}
+	\sim \chi^{2}_{6}
+\end{equation*}
+approximately follows a chi-squared distribution with $7-1 = 6$ degrees of freedom. 
 To reject the null hypothesis with significance level $\alpha = 0.05$, we need the Pearson statistic satisfies
-\[X^{2}_{6} > \chi^{2}_{0.05,6} = 12.592.\]
-
-From calculation, 
-\[
-	\begin{aligned}
-		X^{2}_{6} &= \frac{(517-563.29)^{2}}{563.29}+\cdots+\frac{(561-563.29)^{2}}{563.29}\\
-		&\approx 13.605.\\
-	\end{aligned}
-\]
-
-So we have $X^{2}_{6} > \chi^{2}_{0.05,6}$ and we can reject $H_{0}$.
+\begin{equation*}
+	X^{2}_{6} > \chi^{2}_{0.05,6} = 12.592.
+\end{equation*}
+From calculation,
+\begin{align*}
+	X^{2}_{6} &= \frac{(517-563.29)^{2}}{563.29}+\cdots+\frac{(561-563.29)^{2}}{563.29}\\
+	&\approx 13.605.\\
+\end{align*}
+Since $X^{2}_{6} > \chi^{2}_{0.05,6}$, we can reject $H_{0}$.
 
 From our test, we can conclude that there is evidence that the probability for an incident to happen is not independent to weekday. In other word, the probability for an incident to happen will probably depend on weekday.
 
@@ -384,28 +400,38 @@ From general observation, the distributions of incidents per day seem to be the 
 Here we omit the part to check these two distributions are both Poisson distribution with significance level $\alpha = 0.05$. From our test, there are no evident that these two distributions are not Poisson distributions.
 
 Our focus will be whether these two distributions are different. The null hypothesis we have is 
-\[H_{0}:\text{ These two distributions are the same Poisson distribution.}\]
+\begin{equation*}
+	H_{0}:\text{ These two distributions are the same Poisson distribution.}
+\end{equation*}
 The significance level we choose here is $\alpha = 0.05$.
 
 If this null hypothesis is true, they will have the same parameter, i.e.,
-\[\lambda_{1} = \lambda_{2}.\]
-Then for the estimators we use, they will have the relation 
-\[E[\hat{\lambda_{1}}-\hat{\lambda_{2}}] = 0,\]
+\begin{equation*}
+	\lambda_{1} = \lambda_{2}.
+\end{equation*}
+Then for the estimators we use, they will have the relation
+\begin{equation*}
+	E[\hat{\lambda_{1}}-\hat{\lambda_{2}}] = 0,
+\end{equation*}
 since $\hat{\lambda_{1}}$ and $\hat{\lambda_{2}}$ are unbiased estimators for $\lambda_{1}$ and $\lambda_{2}$.
 
-The samples we use in this test is large enough, then from Central Limit theorem[4] we have 
-\[\frac{\hat{\lambda_{1}}-\hat{\lambda_{2}}}{\sqrt{\text{Var }(\hat{\lambda_{1}-\hat{\lambda_{2}}})}}\sim N(0,1),\]
+The samples we use in this test is large enough, then from Central Limit theorem[4] we have
+\begin{equation*}
+	\frac{\hat{\lambda_{1}} - \hat{\lambda_{2}}}{\sqrt{\text{Var}\left[\hat{\lambda_{1}} - \hat{\lambda_{2}}\right]}}
+	\sim N(0, 1).
+\end{equation*}
 here $N(0,1)$ is s standard normal distribution.
 
 The variance of variable $\hat{\lambda_{1}}-\hat{\lambda_{2}}$ is estimated from observation, an unbiased estimator is derived from
-\[
-	\begin{aligned}
-		\text{Var }((\hat{\lambda_{1}}-\hat{\lambda_{2}}) &= \text{Var }(\frac{X_{1}}{t_{1}}-\frac{X_{2}}{t_{2}})\\
-		&= \frac{1}{t_{1}^{2}}\times \text{Var }X_{1}+\frac{1}{t_{2}^{2}}\times \text{Var }X_{2}\\
-		&= \lambda_{1} t_{1}+\lambda_{2} t_{2}.
-	\end{aligned}
-\]
-Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}t_{1}+\hat{\lambda_{2}}t_{2}$ to estimate $\text{Var }(\hat{\lambda_{1}}-\hat{\lambda_{2}})$.
+\begin{align*}
+	\text{Var}\left[\hat{\lambda_{1}} - \hat{\lambda_{2}}\right]
+	&= \text{Var}\left[\frac{X_{1}}{t_{1}} - \frac{X_{2}}{t_{2}}\right] \\
+	&= \frac{1}{t_{1}^{2}}\text{Var}[X_{1}]
+	+ \frac{1}{t_{2}^{2}}\text{Var}[X_{2}] \\
+	&= \lambda_{1} t_{1} + \lambda_{2} t_{2}.
+\end{align*}
+Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}t_{1}+\hat{\lambda_{2}}t_{2}$ to estimate $\text{Var }\left[\hat{\lambda_{1}}-\hat{\lambda_{2}}\right]$.
+
 \section{Confidence Interval for $k$}
 
 \section{Prediction Interval}
@@ -424,14 +450,14 @@ We denote the length of observation $s$ and number of observations $X$, then
 We choose the estimator for $Y$ denoted $\hat{Y}$ to be $\hat{\lambda}t$.
 Note that
 \begin{align*}
-	\text{E}[Y-\hat{\lambda}t] &= \text{E}[Y]-\text{E}[X]\frac{t}{s}\\
+	\text{E}[Y-\hat{\lambda}t] &= \text{E}[Y]-\text{E}[X]\cdot\frac{t}{s}\\
 	&= \lambda t-\lambda s \cdot \frac{t}{s}\\
 	&= 0.
 \end{align*}
 If $\lambda t$ and $\lambda s$ are both large enough, the random variable $Y$ and $\hat{\lambda}t$ will both follow a normal distribution and their difference is also a normal distribution.
 The mean of $Y-\hat{\lambda}t$ is $0$, and for the variance
 \begin{align*}
-	\text{Var}[Y-\hat{\lambda}t] &= \text{Var}[Y]-\text{Var}[\hat{\lambda}t]\\
+	\text{Var}[Y-\hat{\lambda}t] &= \text{Var}[Y]+\text{Var}[\hat{\lambda}t]\\
 	&= \lambda t+\frac{t^{2}}{s}\lambda.\\
 \end{align*}
 Here we use the fact that $X$ and $Y$ for different periods of observations are independent.
@@ -448,7 +474,7 @@ The prediction interval of $Y$ with \SI{95}{\percent} confidence will be
 	\hat{\lambda}t+z_{0.025}\sqrt{\hat{\lambda}\left(t+\frac{t^{2}}{s}\right)}
 	\right].
 \end{equation*}
-We then plug in the number of observations happened in 2015-2018 and get the estimated $\hat{\lambda}$ first,
+We then plug in the number of observations happened in 2015 - 2018 and get the estimated $\hat{\lambda}$ first,
 \[\hat{\lambda} = .\]
 
 \section{Discussion}
