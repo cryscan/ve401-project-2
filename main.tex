@@ -109,12 +109,10 @@ To make our discussion clear, we summarize notations we will use in table \ref{t
 		\toprule
 		Notation & \multicolumn{1}{c}{Description}\\
 		\midrule
-		$t$ & Number of observation days.\\
-		$n$ & Number of incidents happened in observation.\\
+		$n$ & Number of days in observation.\\
+		$N$ & Number of incidents happened in observation.\\
 		$X$ & Random variable for the number of incidents.\\
-		$X_{ob}$ & Observed number of incidents during observation.\\
 		$\bar{X}$ & Random variable for the number of incidents per day during observation.\\
-		$\bar{X}_{ob}$ & Observed number of numbers incidents per day during observation.\\
 		$\lambda$ & Parameter of Poisson distribution in the model, unit is $\text{day}^{-1}$.\\
 		$\hat{\lambda}$ & Estimated value of $\lambda$.\\
 		$k$ & Parameter of Poisson distribution in the model, $k = \lambda t$.\\
@@ -145,11 +143,11 @@ will be an unbiased estimator for $\lambda$.
 The unit of $\hat{\lambda}$ is $\text{day}^{-1}$ here and this will make the value neither too large nor too small. For this period of observation, we have 
 \begin{align*}
 	t &= 1461\text{ days},\\
-	X_{ob} &= 3943.
+	n &= 3943.
 \end{align*}
 Then the estimated value of $\lambda$ is
 \begin{equation*}
-	\hat{\lambda} = \frac{X_{ob}}{t} \approx 2.70.
+	\hat{\lambda} = \frac{n}{t} \approx 2.70.
 \end{equation*}
 
 \section{Goodness-of-Fit Test}
@@ -336,11 +334,11 @@ In these four years, there are 208  Tuesdays and Wednesdays; there are 209 other
 Since the difference is relative small, we ignore the difference of the numbers of weekdays.
 So if the null hypothesis holds, we will have expected number of incidents happened in each weekday equal to
 \begin{equation*}
-	E_{i} = P_{i} \times N = \frac{N}{7}.
+	E_{i} = P_{i} \times n = \frac{n}{7}.
 \end{equation*}
 
 In the following table, we list the number of incidents happened in each weekday by observation and by prediction. 
-Here we use the fact the total number of incidents is $N = 3943$.
+Here we use the fact the total number of incidents is $n = 3943$.
 \begin{table}[htbp]
 	\centering
 	\begin{tabular}{c|ccccccc}
@@ -374,7 +372,7 @@ Since $X^{2}_{6} > \chi^{2}_{0.05,6}$, we can reject $H_{0}$.
 From our test, we can conclude that there is evidence that the probability for an incident to happen is not independent to weekday. In other word, the probability for an incident to happen will probably depend on weekday.
 
 \subsection{Probability for Incidents to happen on Wednesdays and Mondays}
-To make our conclusion more appropriate, we want to check the probability for an incident to happen on two weekdays. 
+To make our conclusion more appropriate, we want to compare the probability for an incident to happen on two weekdays. 
 We choose Wednesday and Monday to do the test because they have maximum and minimum numbers of incidents happened.
 
 Here we choose to summarize the number of incidents happened per day for Wednesday and Monday. We also plot the distribution in the following diagram.
@@ -446,19 +444,95 @@ The variance of variable $\hat{\lambda_{1}}-\hat{\lambda_{2}}$ is estimated from
 Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}t_{1}+\hat{\lambda_{2}}t_{2}$ to estimate $\text{Var }\left[\hat{\lambda_{1}}-\hat{\lambda_{2}}\right]$.
 
 \section{Confidence Interval for $k$}
+We want to provide a confidence interval for Poisson parameter $k = \lambda t$ with $95\%$ level of confidence. 
+The time period we choose is $t = 1\text{ day}$ and the total number of identical observations we have is $n = 1461$ from 2015 to 2018.
 
-\section{Prediction Interval}
-We denote the number of observations in following time $t$ as $Y$.
-To predict the number of observations in the following time period, we need to find the distribution of $\hat{Y}$ related to $Y$. 
-From Poisson distribution, we know the expectation and variance for $Y$ with observation time $t$ are
+The estimator we use is the average number of incidents happened per day $\hat{k} = \bar{X}$.
+For each day, we have 
 \begin{align*}
-	\text{E}[Y] &= \lambda t,\\
-	\text{Var}[Y] &= \lambda t.\\
+	E[X_{i}] = k,\\
+	\text{Var }[X_{i}] = k.\\
+\end{align*}
+Then the mean of these observations will have 
+\begin{align*}
+	E[\bar{X}] &= E[\frac{1}{n}\sum_{i = 1}^{n}X_{i}] = k,\\
+	\text{Var }[\bar{X}] &= \text{Var }[\frac{1}{n}\sum_{i = 1}^{n}X_{i}] = n \times \frac{k}{n^{2}} = \frac{k}{n}.\\
+\end{align*}
+Here we use the fact that these random variables are independent. So $\bar{X}$ is an unbiased estimator for $k$.
+
+From Central Limit theorem, the distribution of $\bar{X}$ for $n$ large enough will approximately follow a normal distribution. More precisely,
+\begin{equation*}
+	\frac{\hat{k}-k}{\sqrt{k/n}} \sim N(0,1)
+\end{equation*}
+is used in our test. 
+
+We will have $(1-\alpha)100\%$ probability to have 
+\begin{equation*}
+	-z_{\alpha/2} \leq \frac{\hat{k}-k}{\sqrt{k/n}} \leq z_{\alpha/2}.
+\end{equation*}
+The $(1-\alpha)100\%$ confidence interval for $k$ is then 
+\begin{equation*}
+	\hat{k} \pm z_{\alpha/2}\sqrt{\hat{k}/n}.
+\end{equation*}
+From the data from 2015 to 2018, we have 3943 incidents in 1462 days, so $\bar{X} = 3943/1462 \approx 2.699$. We use $z_{\alpha/2} \approx 1.96$ and the 95\% confidence interval for $k$ is then 
+\begin{equation*}
+	2.699 \pm 0.084.
+\end{equation*}
+
+\subsection{$\hat{k}_{2019}$ in 2019}
+If the probability for an incident to happen in 2019 does not change, the number of incidents per day will still follow the same distribution. There are incidents in days, so we first estimate the value $\hat{k}_{2019}$
+\begin{equation*}
+	\hat{k}_{2019} = / \approx
+\end{equation*}
+
+To test wether this model is appropriate, we first use Poisson distribution to calculate the expected number of days in each category and compare these with observed value.
+\iffalse
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{}
+		\# of incidents, $N$ & \\
+		$O_{i}$ & \\
+		$E_{i}$ & \\
+	\end{tabular}
+	\caption{Number of days in each category by prediction and observation.}
+\end{table}
+\fi
+We can notice that each category satisfies $E_{i} \geq 5$, so the Pearson statistic 
+\begin{equation*}
+X_{k} = \sum_{i = 1}^{8}\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi^{2}_{k}
+\end{equation*}
+will follow a Chi-squared distribution with degree of freedom $-1 = k$.
+
+So to reject the null hypothesis 
+\begin{equation*}
+	H_{0}:\text{ Poisson distribution is appropriate}
+\end{equation*}
+with significance level $\alpha = 5\%$, we need $X_{k} \geq \chi^{2}_{0.05,k}$.
+
+From our calculation,
+\begin{align*}
+	X_{k} &= \frac{(1-2)^{2}}{1}+\cdots+\frac{(1-2)^{2}}{2}\\
+	&= \\ \leq \chi^{2}_{0.05,k},
+\end{align*}
+so we cannot reject $H_{0}$ with significance level $\alpha$ and there is no evidence that Poisson distribution is not an appropriate model.
+
+Then the confidence interval for the parameter $\hat{k}_{2019}$ is 
+\begin{equation*}
+	2 \pm 1.
+\end{equation*}
+We can notice that $\hat{k}_{2019}$ is with in the previous described 95\% confidence interval, so there is no evidence that the probability for incidents to happen in 2019 is different from pervious years. 
+\section{Prediction Interval}
+We denote the number of observations in following  $m$ days as $Y$.
+To predict the number of observations in the following time period, we need to find the distribution of $\hat{Y}$ related to $Y$. 
+From Poisson distribution, we know the expectation and variance for $Y$ with observation time $m$ are
+\begin{align*}
+	\text{E}[Y] &= \lambda m,\\
+	\text{Var}[Y] &= \lambda m.\\
 \end{align*}
 The estimator we chose for $\lambda$ is based the number of observations happened before we observe $Y$.
-We denote the length of observation $s$ and number of observations $X$, then
+The length of observation $n$ and the number of observations is $X$, then
 \begin{equation*}
-	\hat{\lambda} = \frac{X}{s}.
+	\hat{\lambda} = \frac{X}{n}.
 \end{equation*}
 We choose the estimator for $Y$ denoted $\hat{Y}$ to be $\hat{\lambda}t$.
 Note that
