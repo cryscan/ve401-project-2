@@ -83,7 +83,8 @@ Based on these assumption, we want to develop a comprehensive statistic model to
 \section{Model Description}
 From the assumptions we made in previous section, we use Poisson distribution to explain the occurrence of fatal police shootings in a given time duration. 
 We will call the fatal police shootings by incident for short. 
-The number of incidents is denoted as $X$. We assume $\lambda$ is the average number of incidents per day and $n$ is the number of days we observe, then the probability to have $N$ incidents happen will be 
+The random variable for number of incidents is denoted as $X$. 
+We assume $\lambda$ is the average number of incidents per day and $n$ is the number of days we observe, then the probability to have $N$ incidents to happen will be 
 \begin{equation*}
 	P[X = N] = e^{-\lambda n}\cdot\frac{(\lambda n)^{N}}{N!}.
 \end{equation*}
@@ -93,7 +94,7 @@ The expectation and variance of $X$ will be
 	\text{Var}[X] &= \lambda n.
 \end{align*}
 
-The data we got from the Post started from 2015 and ended in 2019 April. We will split them into two parts for estimation and prediction.
+The data we got from the Post started from 2015 and ended in 2019 February. We will split them into two parts for estimation and prediction.
 
 Our first step is to provide an estimation for parameter $\lambda$ based on the the data from 2015 to 2018. 
 Then we perform a goodness-of-fit test to check whether our model is appropriate. 
@@ -141,14 +142,14 @@ We know that $\text{E}[X] = \lambda n$, so for a fixed time period,
 \begin{equation*}
 	\hat{\lambda} = \frac{X}{n}
 \end{equation*}
-will be an unbiased estimator for $\lambda$. The unit of $\hat{\lambda}$ is $\text{day}^{-1}$. For this period of observation, we have 
+will be an unbiased estimator for $\lambda$. For this period of observation, we have 
 \begin{align*}
 	n &= 1461,\\
 	N &= 3943.
 \end{align*}
 Then the estimated value of $\lambda$ is
 \begin{equation*}
-	\hat{\lambda} = \frac{N}{n} \approx 2.70.
+	\hat{\lambda} = \frac{N}{n} \approx 2.699.
 \end{equation*}
 
 \section{Goodness-of-Fit Test}
@@ -159,7 +160,7 @@ After we fit the parameter in our model, we want to further test whether our mod
 
 To make further quantitative discussion, we need to divide these days into different categories. 
 From the assumption of our model, the number of incidents happened in a day will also follow a Poisson distribution with $n = 1$. 
-And the observation in each day is independent and identical. We use the number of incidents in a day to categorize these days.
+And the observation in each day is independent and identical. We then use the number of incidents in a day to categorize these days.
 
 Since there is no day that has more than 10 incidents, we decide to make 11 categories. Now we need to calculate the probability for one day to fall into each category. Using Poisson distribution, we take number of incidents equal to $2$ as an example
 \begin{align*}
@@ -249,7 +250,7 @@ However, we have $\chi^{2}_{0.05,10} = 16.92$, so since
 \[X_{9}^{2} = 9.91 < 16.92 = \chi_{0.05,9}^{2}\]
 we accept $H_{0}$.
 
-We also plot number of days in each category as a histogram for both the real case and predicted result. Observed case is shown in Figure 2 and predicted data is shown in Figure 3.
+We also plot number of days in each category as a histogram for both the real case and predicted result. Observed results are shown in Figure 2 and predicted results are shown in Figure 3.
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width = 10cm]{4-years.png}
@@ -302,10 +303,11 @@ For chi-squared distribution with degree 8, we have $\chi_{0.05,8}^{2} = 15.5$. 
 so we cannot reject $H_{0}$ with significance 0.05.
 There is no significant evidence that the distribution of shooting incidents in 2015 does not follow a Poisson distribution.
 
+\subsection{Comparison between one year and four year together}
 However, we want to further make sure this is the same Poisson distribution as the distribution for four years in total. The null hypothesis is 
-\[H_{0}:\text{ Poisson distribution for year 2015 is the same as Poisson distribution for 4 years together.}\]
-We denote the parameter $\lambda_{1}$ for 4 years together and $\lambda_{2}$ for year 2015. 
-\[\lambda_{1} = 2.699,\quad \lambda_{2} = 2.726\]
+\[H_{0}:\text{ Poisson distribution for year 2015 are the same as 4 years together.}\]
+We denote the parameter $\lambda_{1}$ for 4 years together and $\lambda_{2}$ for year 2015. From previous section, we have estimated values as
+\[\lambda_{1} = \frac{N_{1}}{n_{1}} \approx 2.699,\quad \lambda_{2} = \frac{N_{2}}{n_{2}} \approx 2.726.\]
 If this null hypothesis is true, they will have these two parameters equal, i.e.,
 \begin{equation*}
 	\lambda_{1} = \lambda_{2}.
@@ -329,20 +331,21 @@ The variance of variable $\hat{\lambda_{1}}-\hat{\lambda_{2}}$ is estimated from
 	&= \text{Var}\left[\frac{X_{1}}{n_{1}} - \frac{X_{2}}{n_{2}}\right] \\
 	&= \frac{1}{n_{1}^{2}}\text{Var}[X_{1}]
 	+ \frac{1}{n_{2}^{2}}\text{Var}[X_{2}] \\
-	&= \lambda_{1} n_{1} + \lambda_{2} n_{2}.
+	&= \frac{\lambda_{1}}{n_{1}} + \frac{\lambda_{2}}{n_{2}}.
 \end{align*}
-Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}n_{1}+\hat{\lambda_{2}}n_{2}$ to estimate $\text{Var}\left[\hat{\lambda_{1}}-\hat{\lambda_{2}}\right]$.
+Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}$ to estimate $\text{Var}\left[\hat{\lambda_{1}}-\hat{\lambda_{2}}\right]$.
 
 So we can reject $H_{0}$ if we have 
-\[\frac{|\hat{\lambda_{1}}-\hat{\lambda_{2}}|}{\sqrt{\lambda_{1}n_{1}+\lambda_{2}n_{2}}} > z_{0.025}.\]
+\[\frac{|\hat{\lambda_{1}}-\hat{\lambda_{2}}|}{\sqrt{\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}}} > z_{0.025}.\]
 From our calculation, we have 
-\[\frac{|\hat{\lambda_{1}}-\hat{\lambda_{2}}|}{\sqrt{\lambda_{1}n_{1}+\lambda_{2}n_{2}}} = \]
+\begin{equation*}
+	\frac{|\hat{\lambda_{1}}-\hat{\lambda_{2}}|}{\sqrt{\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}}} \approx 0.280 < z_{0.025} = 1.96.
+\end{equation*}
+So there is no significant evidence that the incidents in year 2015 follows a different Poisson distribution from 4 years together. We confirm the result that our model is appropriate.
 
 In conclusion for this section, the hypothesis tests show that our model is appropriate. We will use our model to do further calculation.
 \section{Dependence on Other Factors}
-In previous section, we confirm that our model is appropriate, but Poisson distribution assumes that the happening of police shooting is uniformly random. 
-
-However, we think this may not be a complete description. 
+Although our model is appropriate from the test, we think this may not be a complete description. 
 The probability for an incident to happen may depend on weekday, but for the observation in a whole year, we approximately have number of different weekdays equal. 
 So we check the influence of weekdays in this section.
 \subsection{Dependence on Weekdays}
@@ -357,8 +360,7 @@ From general observation, we cannot give a conclusion directly. So we do a null 
 \begin{equation*}
 	H_{0}:\text{ The probability for an incident to happen does not depend on weekday.}
 \end{equation*} 
-
-We decide to choose significance level $\alpha = 0.05$ for our test.
+We choose significance level $\alpha = 0.05$ for our test.
 
 If the null hypothesis is true, the probability for an incident to happen on each weekday will be equal,
 \begin{equation*}
@@ -366,7 +368,7 @@ If the null hypothesis is true, the probability for an incident to happen on eac
 \end{equation*}
 
 In these four years, there are 208  Tuesdays and Wednesdays; there are 209 other weekdays. 
-Since the difference is relative small, we ignore the difference of the numbers of weekdays.
+Since the difference is relatively small, we ignore the difference of the numbers of weekdays.
 So if the null hypothesis holds, we will have expected number of incidents happened in each weekday equal to
 \begin{equation*}
 	E_{i} = P_{i} \times N = \frac{N}{7}.
@@ -400,7 +402,7 @@ To reject the null hypothesis with significance level $\alpha = 0.05$, we need t
 From calculation,
 \begin{align*}
 	X^{2}_{6} &= \frac{(517-563.29)^{2}}{563.29}+\cdots+\frac{(561-563.29)^{2}}{563.29}\\
-	&\approx 13.605.\\
+	&\approx 13.605.
 \end{align*}
 Since $X^{2}_{6} > \chi^{2}_{0.05,6}$, we can reject $H_{0}$.
 
@@ -486,12 +488,12 @@ The estimator we use is the average number of incidents happened per day $\hat{k
 For each day, we have 
 \begin{align*}
 	E[X_{i}] = k,\\
-	\text{Var}[X_{i}] = k.\\
+	\text{Var}[X_{i}] = k.
 \end{align*}
-Then the mean of these observations will have 
+Then the mean of these observations will be
 \begin{align*}
 	E[\bar{X}] &= E[\frac{1}{n}\sum_{i = 1}^{n}X_{i}] = k,\\
-	\text{Var}[\bar{X}] &= \text{Var }[\frac{1}{n}\sum_{i = 1}^{n}X_{i}] = n \times \frac{k}{n^{2}} = \frac{k}{n}.\\
+	\text{Var}[\bar{X}] &= \text{Var }[\frac{1}{n}\sum_{i = 1}^{n}X_{i}] = n \times \frac{k}{n^{2}} = \frac{k}{n}.
 \end{align*}
 Here we use the fact that these random variables are independent. So $\bar{X}$ is an unbiased estimator for $k$.
 
@@ -516,53 +518,55 @@ From the data from 2015 to 2018, we have 3943 incidents in 1461 days, so $\bar{X
 \end{equation*}
 
 \subsection{$\hat{k}_{2019}$ in 2019}
-If the probability for an incident to happen in 2019 does not change, the number of incidents per day will still follow the same distribution. There are incidents in days, so we first estimate the value $\hat{k}_{2019}$
+If the probability for an incident to happen in 2019 does not change, the number of incidents per day will still follow the same distribution. There are 110 incidents happened in 45 days, so we first estimate the value $\hat{k}_{2019}$
 \begin{equation*}
-	\hat{k}_{2019} = / \approx
+	\hat{k}_{2019} = \frac{110}{45} \approx 2.44.
 \end{equation*}
 
-To test wether this model is appropriate, we first use Poisson distribution to calculate the expected number of days in each category and compare these with observed value.
-\iffalse
+We follow previous method to check whether this is still a Poisson distribution.
 \begin{table}[htbp]
 	\centering
-	\begin{tabular}{}
-		\# of incidents, $N$ & \\
-		$O_{i}$ & \\
-		$E_{i}$ & \\
+	\begin{tabular}{c|cccccccc}
+		\hline
+		\# of incidents, $N$ & 0 & 1 & 2 & 3 & 4 & $\geq 5$\\
+		\hline
+		$O_{i}$ & 3 & 14 & 9 & 7 & 6 & 6\\
+		\hline
+		$E_{i}$ & 3.92 & 9.57 & 11.67 & 9.50 & 5.79 & 4.54\\
+		\hline
 	\end{tabular}
 	\caption{Number of days in each category by prediction and observation.}
 \end{table}
-\fi
 We can notice that each category satisfies $E_{i} \geq 5$, so the Pearson statistic 
 \begin{equation*}
-X_{k} = \sum_{i = 1}^{8}\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi^{2}_{k}
+X_{4} = \sum_{i = 1}^{6}\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi^{2}_{4}
 \end{equation*}
-will follow a Chi-squared distribution with degree of freedom $-1 = k$.
+will follow a Chi-squared distribution with degree of freedom $6-1-1 = 4$.
 
 So to reject the null hypothesis 
 \begin{equation*}
 	H_{0}:\text{ Poisson distribution is appropriate}
 \end{equation*}
-with significance level $\alpha = 5\%$, we need $X_{k} \geq \chi^{2}_{0.05,k}$.
+with significance level $\alpha = 5\%$, we need $X_{4} \geq \chi^{2}_{0.05,4}$.
 
 From our calculation,
 \begin{align*}
-	X_{k} &= \frac{(1-2)^{2}}{1}+\cdots+\frac{(1-2)^{2}}{2}\\
-	&=  \leq \chi^{2}_{0.05,k},\\
+	X_{k} &= \frac{(3-3.92)^{2}}{3.92}+\cdots+\frac{(6-4.54)^{2}}{4.54}\\
+	&\approx 4.01 \leq 9.49  = \chi^{2}_{0.05,4},
 \end{align*}
 so we cannot reject $H_{0}$ with significance level $\alpha$ and there is no evidence that Poisson distribution is not an appropriate model.
 
 Then the confidence interval for the parameter $\hat{k}_{2019}$ is 
 \begin{equation*}
-	2 \pm 1.
+	2.44 \pm 0.47.
 \end{equation*}
-We can notice that $\hat{k}_{2019}$ is with in the previous described 95\% confidence interval, so there is no evidence that the probability for incidents to happen in 2019 is different from pervious years. 
+We can notice that the confidence interval covers the confidence interval for $\hat{k}$ by 4 years. 
 \section{Prediction Interval}
 After we provided a confidence interval for parameter $k$, we want to predict the incidents that will happen in future observations.
 
-We consider following $m$ days and the random variable for number of incidents to happen $Y$. We use $\hat{Y}$ to predict the value of $Y$.
+We consider following $m$ days and the random variable for number of incidents to happen $Y$. We use $\hat{Y}$ to denote the predictor of $Y$.
 
-We used number of incidents $X$ in previous $n$ to predict $Y$, the estimator $\hat{Y}$ is 
+We used number of incidents $X$ happened in previous $n$ days to predict $Y$, the estimator $\hat{Y}$ is 
 \begin{equation*}
 \hat{Y} = m \times \frac{X}{n}.
 \end{equation*}
@@ -575,7 +579,7 @@ To find the prediction interval for $Y$, we need to find the relation between $\
 If $\lambda n$ and $\lambda m$ are both large enough, the random variable $Y$ and $\hat{\lambda}t$ will both follow a normal distribution and their difference is also a normal distribution.
 The mean of $Y-\hat{Y}$ is $0$, and for the variance
 \begin{align*}
-	\text{Var}[Y-\hat{Y}] &= \text{Var}[Y]+\frac{m^{2}}{n^{2}}\text{Var}[\hat{\lambda}t]\\
+	\text{Var}[Y-\hat{Y}] &= \text{Var}[Y]+\frac{m^{2}}{n^{2}}\text{Var}[X]\\
 	&= \lambda m+\frac{m^{2}}{n}\lambda.\\
 \end{align*}
 Here we use the fact that $X$ and $Y$ for different periods of observations are independent.
