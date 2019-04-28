@@ -166,7 +166,7 @@ Since there is no day that has more than 10 incidents, we decide to make 11 cate
 \begin{align*}
 	P[X = 2] &= \frac{\left(\hat{\lambda}\times 1\right)^{2}}{2!}
 	e^{-\hat{\lambda} \times 1} \\
-	&\approx 0.245.\\
+	&\approx 0.245.
 \end{align*}
 
 So the probability to have two incidents in a day from our model is $0.245$.
@@ -243,7 +243,7 @@ We then calculate the Pearson statistic,
 	\begin{aligned}
 		X_{9}^{2} &= \sum_{i = 0}^{10}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
 		&= \frac{(108-98.2)^{2}}{98.2}+\cdots+\frac{(1-2.1)^{2}}{2.1}\\
-		&\approx 9.91.\\
+		&\approx 9.91.
 	\end{aligned}
 \] 
 However, we have $\chi^{2}_{0.05,10} = 16.92$, so since 
@@ -263,7 +263,7 @@ We also plot number of days in each category as a histogram for both the real ca
 \end{figure}
 
 From observation, we can notice that there is no significant difference between these two distributions. We confirm the result that Poisson distribution is an appropriate model.
-\subsubsection{Test for Observations in One Year}
+\subsection{Test for Observations in One Year}
 Although we do not reject $H_{0}$ from the data of 4 years together, we want to test the hypothesis individually for one year to make sure our model is appropriate. We randomly pick year 2015 for test. We will first summarize $O_{i}$ and $E_{i}$ in a table and then do the hypothesis test.
 
 \begin{table}[htbp]
@@ -408,78 +408,67 @@ Since $X^{2}_{6} > \chi^{2}_{0.05,6}$, we can reject $H_{0}$.
 
 From our test, we can conclude that there is evidence that the probability for an incident to happen are not the same for different weekdays. In other word, the probability for an incident to happen depend on weekday.
 
-\subsection{Probability for Incidents to happen on Wednesdays and Mondays}
+\subsection{Probability for Incidents to happen on Mondays and Wednesdays}
 To make our conclusion more appropriate, we want to compare the probability for an incident to happen on two weekdays. 
-We choose Wednesday and Monday to do the test because they have maximum and minimum numbers of incidents happened.
+We choose Monday and Wednesday to do the test because they have minimum and maximum numbers of incidents happened.
 
-Here we choose to summarize the number of incidents happened per day for Wednesday and Monday. We also plot the distribution in the following diagram.
-We can estimate $\lambda_{1}$ for the distribution of incidents on Wednesdays as 
+Here we choose to summarize the number of incidents happened per day for Monday and Wednesday. We also plot the distribution in the following diagram.
+
+We can estimate $\lambda_{1}$ for the distribution of incidents on Mondays as 
 \begin{equation*}
-N_{1} = 616,\ n_{1} = 209,\ \hat{\lambda_{1}} = \frac{N_{1}}{n_{1}} \approx 2.95.
+	N_{1} = 517,\ n_{1} = 208,\ \hat{\lambda_{1}} = \frac{N_{1}}{n_{1}} \approx 2.49.
 \end{equation*}
-We also estimated $\lambda_{2}$ for the distribution of incidents on Mondays as
+We also estimated $\lambda_{2}$ for the distribution of incidents on Wednesdays as
 \begin{equation*}
-	N_{2} = 517,\ n_{2} = 208,\ \hat{\lambda_{1}} = \frac{N_{2}}{n_{2}} \approx 2.49.
+	N_{2} = 616,\ n_{2} = 209,\ \hat{\lambda_{2}} = \frac{N_{2}}{n_{2}} \approx 2.95.
 \end{equation*}
-\iffalse
+Then we summarize the observed and expected number of days in each category for Monday and Wednesday.
 \begin{table}[htbp]
 	\centering
 	\caption{Number of incidents happened per day for Wednesday and Monday.}
-	\begin{tabular}
+	\begin{tabular}{c|cccccccc}
 		\hline
-		\# of Incidents & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\
+		\# of Incidents & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
 		\hline
-		$O_{i}$ & 8 & 37 & 45 & 51 & 27 & 18 & 18 & 4\\
-		$E_{i}$ & 
+		$O_{i}$ & 21 & 51 & 48 & 35 & 30 & 13 & 6 & 6\\
+		\hline
+		$E_{i}$ & 17.24 & 42.94 & 53.46 & 44.37 & 26.62 & 13.76 & 5.71 & 2.89\\
+		\hline
+		$O_{i}$ & 9 & 37 & 45 & 51 & 27 & 18 & 18 & 4\\
+		\hline
+		$E_{i}$ & 10.94 & 32.27 & 47.60 & 46.81 & 34.52 & 20.37 & 10.01 & 6.49\\
+		\hline
 	\end{tabular}
 \end{table}
-\begin{figure}[htbp]
-	\centering
-	\caption{Number of incidents happened per day for Wednesday.}
-\end{figure}
-\begin{figure}[htbp]
-	\centering
-	\caption{Number of incidents happened per day for Wednesday.}
-\end{figure}
-\fi
-
-From general observation, the distributions of incidents per day seem to be the same. However, we need to do a hypothesis test to make an appropriate conclusion.
-
-Here we omit the part to check these two distributions are both Poisson distribution with significance level $\alpha = 0.05$. From our test, there are no evidence that these two distributions are not Poisson distributions.
-
-Our focus will be whether these two distributions are different. The null hypothesis is 
+Then we perform the goodness-of-fit test as before, the degree of freedom is $8-1-1 = 6$, the Pearson statistics for Monday is 
 \begin{equation*}
-	H_{0}:\text{ These two distributions are the same Poisson distribution.}
+	X^{2}_{6} = \sum_{i = 1}^{8}\frac{(O_{i}-E_{i})^{2}}{E_{i}} \approx 8.70 < \chi^{2}_{0.05,6} = 12.6,
 \end{equation*}
-The significance level we choose here is $\alpha = 0.05$.
+so we accept the number of incidents on Monday follow a Poisson distribution.
 
-If this null hypothesis is true, they will have the same parameter, i.e.,
+The Pearson statistic on Wednesday is 
 \begin{equation*}
-	\lambda_{1} = \lambda_{2}.
+	X^{2}_{6} = \sum_{i = 1}^{8}\frac{(O_{i}-E_{i})^{2}}{E_{i}} \approx 10.80 < \chi^{2}_{0.05,6} = 12.6,
 \end{equation*}
-Then for the estimators we use, they will have the relation
+so we also accept the number of incidents on Wednesday follow a Poisson distribution.
+
+Then to compare these two distributions, we use the similar method as before, the null hypothesis is 
 \begin{equation*}
-	E[\hat{\lambda_{1}}-\hat{\lambda_{2}}] = 0,
+	H_{0}:\text{ Poisson distributions on Mondays and Wednesdays are the same.}
 \end{equation*}
-since $\hat{\lambda_{1}}$ and $\hat{\lambda_{2}}$ are unbiased estimators for $\lambda_{1}$ and $\lambda_{2}$.
 
-The samples we use in this test is large enough, then from Central Limit theorem[4] we have
+Assume the Central Limit theorem holds, then we have
 \begin{equation*}
-	\frac{\hat{\lambda_{1}} - \hat{\lambda_{2}}}{\sqrt{\text{Var}\left[\hat{\lambda_{1}} - \hat{\lambda_{2}}\right]}}
-	\sim N(0, 1).
+	\frac{\hat{\lambda_{1}}-\hat{\lambda_{2}}}{\sqrt{\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}}} \sim N(0,1).
 \end{equation*}
-here $N(0,1)$ is s standard normal distribution.
 
-The variance of variable $\hat{\lambda_{1}}-\hat{\lambda_{2}}$ is estimated from observation, an unbiased estimator is derived from
-\begin{align*}
-	\text{Var}\left[\hat{\lambda_{1}} - \hat{\lambda_{2}}\right]
-	&= \text{Var}\left[\frac{X_{1}}{n_{1}} - \frac{X_{2}}{n_{2}}\right] \\
-	&= \frac{1}{n_{1}^{2}}\text{Var}[X_{1}]
-	+ \frac{1}{n_{2}^{2}}\text{Var}[X_{2}] \\
-	&= \lambda_{1} n_{1} + \lambda_{2} n_{2}.
-\end{align*}
-Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}n_{1}+\hat{\lambda_{2}}n_{2}$ to estimate $\text{Var}\left[\hat{\lambda_{1}}-\hat{\lambda_{2}}\right]$.
+And from our calculation,
+\begin{equation*}
+	\frac{|\hat{\lambda_{1}}-\hat{\lambda_{2}}|}{\sqrt{\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}}} \approx 2.79 > z_{\alpha/2} = 1.96.
+\end{equation*}
+So we can reject $H_{0}$ with significance $\alpha = 0.05$. There is evidence that the distributions of incidents are not the same for different weekdays.
 
+In conclusion for this section, our tests show that there is evidence that the distributions of incidents are now the same for different weekdays. This result make the description of our model more complete.
 \section{Confidence Interval for $k$}
 We want to provide a confidence interval for Poisson parameter $k = \lambda n$ with $95\%$ level of confidence. 
 The time period we choose is 1 day and the total number of identical observations we have is $n = 1461$ from 2015 to 2018.
@@ -560,7 +549,7 @@ Then the confidence interval for the parameter $\hat{k}_{2019}$ is
 \begin{equation*}
 	2.44 \pm 0.47.
 \end{equation*}
-We can notice that the confidence interval covers the confidence interval for $\hat{k}$ by 4 years. 
+We can notice that the confidence interval covers the confidence interval for $\hat{k}$ by 4 years. If the 95\% confidence provided in previous part is true, the confidence interval provided here shows that there is no evidence the distribution of incidents in 2019 is different from previous 4 years. 
 \section{Prediction Interval}
 After we provided a confidence interval for parameter $k$, we want to predict the incidents that will happen in future observations.
 
@@ -597,17 +586,26 @@ here we replace $\hat{Y} = m \times X/n$ by $\hat{\lambda}m$. We plug in the val
 	2.699 \times m \pm 3.220 \times \sqrt{m+\frac{m^{2}}{1461}}.
 \end{equation*} 
 We then plot the graph to compare the result from observation and prediction in January to March in 2019. 
-\iffalse
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[]{}
-	\caption{Accumulated number of incidents by observation and 95\% confidence prediction interval in 2019.}
-\end{figure}
-\fi
+
 
 From the observation of this graph, we can notice that the observed line is always within the prediction interval. So there is no evidence that the probability for an incident to happen in 2019 is different from previous 4 years.
 \section{Discussion}
+In our model, the Poisson distribution for incidents to happen in year 2015 and four years together are the same. However, the distributions of incidents are different for different weekdays. So if the probability for an incident to happen in each day of a period are different, but we collect the data of several periods, we cannot distinguish the difference between different days. This result implies that we need to be more careful to apply statistical method to deal with real world problem. We are supposed to analyze the same problem from different aspects. Although the model is appropriate for one aspect, it still cannot reveal the characteristic of another aspect. This result motivates us to explore deeper in the analysis of data. 
 \section{Summary}
+In this report, we use Poisson distribution to explain the happening of fatal police shootings in the U.S. We perform a goodness-of-fit test and result shows that our model is appropriate. Then we also checked whether the Poisson distributions are the same for four years together and one year individually. The result confirms that our model is appropriate to describe the happening of fatal police shootings. Our model shows that for duration $n$ days, the probability for $N$ incidents to happen is 
+\begin{equation*}
+	P[X = N] = \frac{(2.699 \times n)^{N}}{N!}\cdot e^{-2.699 \times n}.
+\end{equation*}
+
+However, we then check the distribution of fatal police shootings is actually uniform in each day. We check whether it depends on weekdays and result shows that there is evidence that they are not independent. We then compare the Poisson distribution of fatal police shootings on Mondays and Wednesdays and the results shows that there is evidence that they are different distribution. From this point of view, our model is not complete enough to describe the probability for an incident to happen during a week.
+
+We finally use the model we have to provide the confidence interval for $\lambda$. The 95\% confidence interval for $\lambda$ using data from 2015 to 2018 is 
+\[2.699 \pm 0.084.\]
+We then provide the 95\% confidence interval using data obtained in 2019, and it is 
+\[2.44 \pm 0.47.\]
+So the previous confidence interval is within this range. If previous interval is true, there is no obvious evidence that the distribution of incidents in year 2019 is different from previous 4 years.
+
+We also use our model to provide a prediction interval for the number of incidents that are supposed to happen in year 2019. From the result we obtained, the observed value is always with in the prediction interval. This confirms our conclusion that the distribution of incidents in 2019 is not different from previous 4 years. 
 \section{Reference}
 [2] Police can use deadly force if they merely perceive a threat. \href{https://www.vox.com/identities/2016/8/13/17938226/police-shootings-killings-law-legal-standard-garner-graham-connor}{https://www.vox.com/identities/2016/8/13/17938226}
 
