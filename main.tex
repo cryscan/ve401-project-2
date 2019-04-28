@@ -7,6 +7,8 @@
 \usepackage{indentfirst}
 \usepackage{amsmath}
 \usepackage{multirow}
+\usepackage{multicol}
+\usepackage{subcaption}
 \usepackage{enumerate}
 \usepackage{siunitx}
 \usepackage[font=small,labelfont=bf,tableposition=top]{caption}
@@ -132,7 +134,7 @@ To make our discussion clear, we summarize notations we will use in table \ref{t
 To summarize the data we got from the Washington Post, we plot a figure to show the number of incidents happened in a day with respect to the date. The data we covered here are from 2015 to 2018.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width = \textwidth]{1.png}
+	\includegraphics[width=\textwidth]{1.png}
     \caption{Number of incidents happened per day with respect to the date from 2015 to 2018.}
 \end{figure}
 
@@ -250,16 +252,18 @@ However, we have $\chi^{2}_{0.05,10} = 16.92$, so since
 \[X_{9}^{2} = 9.91 < 16.92 = \chi_{0.05,9}^{2}\]
 we accept $H_{0}$.
 
-We also plot number of days in each category as a histogram for both the real case and predicted result. Observed results are shown in Figure 2 and predicted results are shown in Figure 3.
+We also plot number of days in each category as a histogram for both the real case and predicted result. Observed results are shown in Figure 2 and predicted results are shown in Figure \ref{fig:4-years}.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width = 10cm]{4-years.png}
-	\caption{Number of days in each category by observation for 4 years together.}
-\end{figure}
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width = 10cm]{poisson.png}
-	\caption{Number of days in each category by prediction for 4 years together.}
+	\begin{multicols}{2}
+		\includegraphics[width=\linewidth]{4-years.png}
+		\caption{Number of days in each category by observation for 4 years together.}
+		\label{fig:4-years}
+
+		\includegraphics[width=\linewidth]{poisson.png}
+		\caption{Number of days in each category by prediction for 4 years together.}
+		\label{fig:poisson}
+	\end{multicols}
 \end{figure}
 
 From observation, we can notice that there is no significant difference between these two distributions. We confirm the result that Poisson distribution is an appropriate model.
@@ -344,37 +348,41 @@ From our calculation, we have
 So there is no significant evidence that the incidents in year 2015 follows a different Poisson distribution from 4 years together. We confirm the result that our model is appropriate.
 
 In conclusion for this section, the hypothesis tests show that our model is appropriate. We will use our model to do further calculation.
+
 \section{Dependence on Other Factors}
 Although our model is appropriate from the test, we think this may not be a complete description. 
 The probability for an incident to happen may depend on weekday, but for the observation in a whole year, we approximately have number of different weekdays equal. 
 So we check the influence of weekdays in this section.
+
 \subsection{Dependence on Weekdays}
-We first plot the number of incidents happened in each weekday to have a general observation. The data we use here is the data of 4 years from 2015 to 2018 together.
+We first plot the number of incidents happened in each weekday to have a general observation in Figure \ref{fig:weekdays}. The data we use here is the data of 4 years from 2015 to 2018 together.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width = 10cm]{weekdays.png}
+	\includegraphics[width=0.7\textwidth]{weekdays.png}
 	\caption{Number of incidents in each weekday for four years together.}
+	\label{fig:weekdays}
 \end{figure}
-
-From general observation, we cannot give a conclusion directly. So we do a null hypothesis test to check the dependence. The null hypothesis test is
+From general observation, we cannot give a conclusion directly,
+therefore we do a null hypothesis test to check the dependence.
+The null hypothesis is
 \begin{equation*}
-	H_{0}:\text{ The probability for an incident to happen does not depend on weekday.}
+	H_{0}:
+	\text{The probability for an incident to happen does not depend on weekday.}
 \end{equation*} 
 We choose significance level $\alpha = 0.05$ for our test.
-
-If the null hypothesis is true, the probability for an incident to happen on each weekday will be equal,
+Assume that the null hypothesis is true, the probability for an incident to happen on each weekday will be equal,
 \begin{equation*}
 	P_{1} = \cdots = P_{7} = \frac{1}{7}.
 \end{equation*}
 
-In these four years, there are 208  Tuesdays and Wednesdays; there are 209 other weekdays. 
+In the four years, there are $208$ Tuesdays and Wednesdays, and there are $209$ other weekdays. 
 Since the difference is relatively small, we ignore the difference of the numbers of weekdays.
 So if the null hypothesis holds, we will have expected number of incidents happened in each weekday equal to
 \begin{equation*}
 	E_{i} = P_{i} \times N = \frac{N}{7}.
 \end{equation*}
 
-In the following table, we list the number of incidents happened in each weekday by observation and by prediction. 
+In Table \ref{tab:weekdays}, we list the number of incidents happened in each weekday by observation and by prediction. 
 Here we use the fact the total number of incidents is $N = 3943$.
 \begin{table}[htbp]
 	\centering
@@ -387,9 +395,9 @@ Here we use the fact the total number of incidents is $N = 3943$.
 		\hline
 	\end{tabular}
 	\caption{Number of incidents happened in each weekday by observation and by prediction}
+	\label{tab:weekdays}
 \end{table}
-
-We notice that for each category $E_{i} > 5$, so the Pearson statistic
+Note that for each category $E_{i} > 5$, so the Pearson statistic
 \begin{equation*}
 	X^{2}_{6} = \sum_{i = 1}^{7}\frac{(O_{i} - E_{i})^{2}}{E_{i}}
 	\sim \chi^{2}_{6}
@@ -399,7 +407,7 @@ To reject the null hypothesis with significance level $\alpha = 0.05$, we need t
 \begin{equation*}
 	X^{2}_{6} > \chi^{2}_{0.05,6} = 12.592.
 \end{equation*}
-From calculation,
+The value of our test statistic is
 \begin{align*}
 	X^{2}_{6} &= \frac{(517-563.29)^{2}}{563.29}+\cdots+\frac{(561-563.29)^{2}}{563.29}\\
 	&\approx 13.605.
@@ -596,14 +604,13 @@ here we replace $\hat{Y} = m \times X/n$ by $\hat{\lambda}m$. We plug in the val
 \begin{equation*}
 	2.699 \times m \pm 3.220 \times \sqrt{m+\frac{m^{2}}{1461}}.
 \end{equation*} 
-We then plot the graph to compare the result from observation and prediction in January to March in 2019. 
-\iffalse
+We then plot the graph to compare the result from observation and prediction in January to March in 2019.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[]{}
-	\caption{Accumulated number of incidents by observation and 95\% confidence prediction interval in 2019.}
+	\includegraphics[width=0.8\textwidth]{predict}
+	\caption{Accumulated number of incidents by observation and \SI{95}{\percent} confidence prediction interval in 2019.}
+	\label{fig:predict}
 \end{figure}
-\fi
 
 From the observation of this graph, we can notice that the observed line is always within the prediction interval. So there is no evidence that the probability for an incident to happen in 2019 is different from previous 4 years.
 \section{Discussion}
