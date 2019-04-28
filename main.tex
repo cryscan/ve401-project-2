@@ -16,7 +16,6 @@
 \usepackage[colorlinks,linkcolor=black]{hyperref}
 \usepackage{threeparttable}
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
-\linespread{1.2}
 
 \begin{document}
 
@@ -69,14 +68,14 @@ Police Shootings in the United States}} \\
 \newpage
 \tableofcontents
 \newpage\section{Introduction}
-Fatal police shootings are the incidents that police shoot the suspect to death in the line of duty. Constitutionally, police are allowed to shoot "to protect their life or the life of another innocent party" or "prevent a suspect from escaping if the suspect is thought to pose a threat to others"[2]. Their decisions are made under very tense circumstance and the justification is often controversial. The Washington Post started collecting the data of these incidents in 2015 and tried to appeal people to pay close attention to this issue. The Post obtained the data from four sources[3]: 
+Fatal police shootings are the incidents that police shoot the suspect to death in the line of duty. Constitutionally, police are allowed to shoot "to protect their life or the life of another innocent party" or "prevent a suspect from escaping if the suspect is thought to pose a threat to others" \cite{police}. Their decisions are made under very tense circumstance and the justification is often controversial. The Washington Post started collecting the data of these incidents in 2015 and tried to appeal people to pay close attention to this issue. The Post obtained the data from four sources \cite{post}: 
 \begin{enumerate}[(i)]
     \item Local news reports
     \item Enforcement websites
     \item Social media
 	\item Independent databases such as Killed by Police and Fatal Encounters
 \end{enumerate}
-The Post only documented those shootings in which ``a police officer, in the line of duty, shoots and kills a civilian"[3]. The incidents that were ``deaths of people in police custody, fatal shootings by off-duty officer or non-shooting deaths" were not included[3]. The data recorded by the Post started form 2015 and is still updating right now. From the source of the data, we can conclude that the incidents recorded by the Post were really severe. These incidents that threatened people's life possibly happened randomly. We can assume these incidents have following properties:
+The Post only documented those shootings in which ``a police officer, in the line of duty, shoots and kills a civilian" \cite{post}. The incidents that were ``deaths of people in police custody, fatal shootings by off-duty officer or non-shooting deaths" were not included \cite{post}. The data recorded by the Post started form 2015 and is still updating right now. From the source of the data, we can conclude that the incidents recorded by the Post were really severe. These incidents that threatened people's life possibly happened randomly. We can assume these incidents have following properties:
 \begin{enumerate}
     \item Each incident did not influence other incidents and they were independently to happen.
     \item During a short period, the probability for one incident to occur is proportional to the length of time period. 
@@ -613,10 +612,12 @@ We then plot the graph to compare the result from observation and prediction in 
 \end{figure}
 
 From the observation of this graph, we can notice that the observed line is always within the prediction interval. So there is no evidence that the probability for an incident to happen in 2019 is different from previous 4 years.
-\section{Discussion}
-\section{Summary}
-\section{Reference}
-[2] Police can use deadly force if they merely perceive a threat. \href{https://www.vox.com/identities/2016/8/13/17938226/police-shootings-killings-law-legal-standard-garner-graham-connor}{https://www.vox.com/identities/2016/8/13/17938226}
 
-[3] How The Washington Post is examining police shootings in the United States. \href{https://www.washingtonpost .com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.bb540299ce96}{https://www.washingtonpost .com/national}
+\section{Discussion}
+
+\section{Summary}
+
+\bibliography{ref}
+\bibliographystyle{plain}
+
 \end{document}
