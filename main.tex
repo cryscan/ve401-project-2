@@ -2,9 +2,14 @@
 \usepackage{geometry}
 \geometry{a4paper}
 
+\usepackage[sc]{mathpazo}
+\linespread{1.05}
+\usepackage{microtype}
+
+\usepackage[english]{babel} % Language hyphenation and typographical rules
+
 \usepackage{color}
 \usepackage{graphicx}
-\usepackage{indentfirst}
 \usepackage{amsmath}
 \usepackage{multirow}
 \usepackage{multicol}
@@ -18,13 +23,9 @@
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 
 \begin{document}
-
-\vspace*{0.25cm}
-
-\hrulefill
-
 \thispagestyle{empty}
 
+\hrule\hrule
 \begin{center}
 \begin{large}
 \sc{UM--SJTU Joint Institute \vspace{0.3em} \\ Probabilistic Methods in Engineering \\(Ve401)}
@@ -64,13 +65,22 @@ Police Shootings in the United States}} \\
 \end{table}
 \newpage
 \begin{abstract}
-	In this project, we provide statistical analysis to the happening of fatal police shootings in the U.S. We use the data collected by the Washington Post from 2015 to 2019 February \cite{post}. We use data from 2015 to 2018 as observed data and use the data in 2019 to evaluate our model. Our test show that for 4 years together or one year individually, we can use Poisson distribution to explain the happening of shooting incidents. However, Poisson distribution cannot reveal the fact that the distribution of shooting incidents is not the same for different weekdays. Our test show that there is evidence that the distribution of shooting incidents are different on Monday and Wednesday. Finally, we provide 95\% confidence interval for parameter $\lambda$ estimated by 4 years data. We compare the 95\% confidence interval calculated from data in 2019. The result shows that there is no evidence that the probability for shooting incidents to happen in year 2019 is different from previous 4 years. We also provide 95\% prediction interval for the shooting incidents in 2019. The observed data is always within the prediction interval and this confirms the result that there is no evidence that the probability for a shooting incident to happen in 2019 is different from previous 4 years. 
+	In this project, we provide statistical analysis to the happening of fatal police shootings in the U.S. using the data collected by the Washington Post from 2015 to 2019 February.
+	We use data from 2015 to 2018 as observed data and use the data in 2019 to evaluate our model.
+	Our tests show that for 4 years together or one year individually, we can use Poisson distribution to explain the happening of shooting incidents.
+	However, Poisson distribution cannot reveal the fact that the distribution of shooting incidents is not the same for different weekdays.
+	Our tests show that there is evidence that the distribution of shooting incidents are different on Monday and Wednesday.
+	Finally, we provide \SI{95}{\percent} confidence interval for parameter $\lambda$ estimated by 4 years data.
+	We compare the \SI{95}{\percent} confidence interval calculated from data in 2019.
+	The result shows that there is no evidence that the probability for shooting incidents to happen in year 2019 is different from previous 4 years.
+	We also provide \SI{95}{\percent} prediction interval for the shooting incidents in 2019.
+	The observed data is always within the prediction interval and this confirms the result that there is no evidence that the probability for a shooting incident to happen in 2019 is different from previous 4 years.
 \end{abstract}
 \newpage
 \tableofcontents
 \newpage\section{Introduction}
 Fatal police shootings are the incidents that police shoot the suspect to death in the line of duty. Constitutionally, police are allowed to shoot ``to protect their life or the life of another innocent party" or ``prevent a suspect from escaping if the suspect is thought to pose a threat to others" \cite{police}. Their decisions are made under very tense circumstance and the justification is often controversial. The Washington Post started collecting the data of these incidents in 2015 and tried to appeal people to pay close attention to this issue. The Post obtained the data from four sources \cite{post}: 
-\begin{enumerate}[(i)]
+\begin{enumerate}
     \item Local news reports
     \item Enforcement websites
     \item Social media
@@ -172,7 +182,7 @@ Since there is no day that has more than 10 incidents, we decide to make 11 cate
 \end{align*}
 
 So the probability to have two incidents in a day from our model is $0.245$.
-Based on similar calculation, the probability to have one day into each category is summarize in the following table:
+Based on similar calculation, the probability to have one day into each category is summarize in Table \ref{tab:prob}:
 \begin{table}[htbp]
     \centering
 	\begin{tabular}{c|cccccc}
@@ -187,14 +197,14 @@ Based on similar calculation, the probability to have one day into each category
 		\hline
     \end{tabular}
 	\caption{Probability to have $n$ incidents happened in a day predicted from our model.}
+	\label{tab:prob}
 \end{table}
 
 In this test, the quantity that will be directly used is the number of days expected in each category. Since the these days are independent and identical, we have expected number of days in each category equal to
 \begin{equation*}
 	E_{i} = P[X = N_{i}] \times n.
 \end{equation*}
-We also summarize them in the following table.
-
+We summarize them in Table \ref{tab:expect}.
 \begin{table}[htbp]
     \centering
 	\begin{tabular}{c|cccccc}
@@ -208,21 +218,24 @@ We also summarize them in the following table.
 		$E_{i}$  & 52.8 & 20.4 & 6.9 & 2.1 & 0.73 & \\ 
 		\hline
     \end{tabular}
-	\caption{Probability to have $n$ incidents happened in a day predicted from our model.}
+	\caption{Expected days of each category from 2015 - 2018 predicted from our model.}
+	\label{tab:expect}
 \end{table}
+Note that for all the categories such that $E_{i} \geq 5$ are 9 out of 11, which satisfies the requirement $E_{i} \geq 5$ for \SI{80}{\percent} categories.
 
-We can notice that for all the categories such that $E_{i} \geq 5$ are 9 out of 11. This satisfies the requirement $E_{i} \geq 5$ for 80\% categories.
-
-The Pearson statistic will approximately follow a chi-squared distribution in this case. Since we have 11 categories in total, the chi-squared random variable has $11-1-1 = 9$ degree of freedom[4].
-\[X^{2}_{9} = \sum_{i = 0}^{10}
-\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi_{9}^{2}\]
-
-For out test, we choose the significance level $\alpha = 0.05$. If $X^{2}_{9} > \chi_{0.05,9}^{2}$, we will reject $H_{0}$ ; otherwise we will accept $H_{0}$.
+The Pearson statistic will approximately follow a chi-squared distribution in this case.
+Since we have 11 categories in total, the chi-squared random variable has $11-1-1 = 9$ degree of freedom \cite{slides}:
+\begin{equation*}
+	X^{2}_{9} = \sum_{i = 0}^{10}
+	\frac{(O_{i}-E_{i})^{2}}{E_{i}} \sim \chi_{9}^{2}.
+\end{equation*}
+For out test, we choose the significance level $\alpha = 0.05$. If $X^{2}_{9} > \chi_{0.05,9}^{2}$, we reject $H_{0}$.
+Otherwise we accept $H_{0}$.
 
 Since the data we obtain consist of four years from 2015 to 2018, we would like to do the test for four years together first and test one year to confirm our result. 
 
 \subsection{Test for Observations in Four Years Together}
-We summarize the numbers of days in each category by observation and by prediction from 2015 to 2018 in the following table.
+We summarize the numbers of days in each category by observation and by prediction from 2015 to 2018 in Table \ref{tab:4-years}.
 \begin{table}[htbp]
     \centering
 	\begin{tabular}{c|cccccc}
@@ -242,18 +255,19 @@ We summarize the numbers of days in each category by observation and by predicti
 		\hline 
     \end{tabular}
 	\caption{Number of days in each category observed and estimated from 2015 to 2018.}
+	\label{tab:4-years}
 \end{table}
-
-We then calculate the Pearson statistic,
-\[
-	\begin{aligned}
-		X_{9}^{2} &= \sum_{i = 0}^{10}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
-		&= \frac{(108-98.2)^{2}}{98.2}+\cdots+\frac{(1-2.1)^{2}}{2.1}\\
-		&\approx 9.91.
-	\end{aligned}
-\] 
-However, we have $\chi^{2}_{0.05,9} = 16.92$, so since 
-\[X_{9}^{2} = 9.91 < 16.92 = \chi_{0.05,9}^{2}\]
+The Pearson statistic is
+\begin{align*}
+	X_{9}^{2} &= \sum_{i = 0}^{10}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
+	&= \frac{(108-98.2)^{2}}{98.2}+\cdots+\frac{(1-2.1)^{2}}{2.1}\\
+	&\approx 9.91.
+\end{align*}
+However, we have $\chi^{2}_{0.05,9} = 16.92$.
+Since 
+\begin{equation*}
+	X_{9}^{2} = 9.91 < 16.92 = \chi_{0.05,9}^{2},
+\end{equation*}
 we accept $H_{0}$.
 
 We also plot number of days in each category as a histogram for both the real case and predicted result. Observed results are shown in Figure 2 and predicted results are shown in Figure \ref{fig:4-years}.
@@ -278,8 +292,7 @@ Although we do not reject $H_{0}$ from the data of 4 years together, we want to 
 \end{equation*}
 The null hypothesis is 
 \[H_{0}:\text{ Incidents happened in year 2015 follows a Poisson distribution.}\]
-We summarize $O_{i}$ and $E_{i}$ in the following table.
-
+We summarize $O_{i}$ and $E_{i}$ in Table \ref{tab:2015}.
 \begin{table}[htbp]
     \centering
 	\begin{tabular}{c|cccccc}
@@ -291,26 +304,26 @@ We summarize $O_{i}$ and $E_{i}$ in the following table.
 		$E_{i}$ & 23.9 & 65.2 & 88.8 & 80.7 & 55.0 \\ 
 		\hline
 		\hline
-		\# of incidents, $n$ & 5 & 6 & 7 & 8 & $\geq 9$  \\
+		\# of incidents, $n$ & 5 & 6 & 7 & 8 & $\geq 9$ \\
 		\hline
-		$O_{i}$ & 33 & 14 & 8 & 2 & 0\\
+		$O_{i}$ & 33 & 14 & 8 & 2 & 0 \\
 		\hline
 		$E_{i}$ & 30.0 & 13.6 & 5.3 & 1.8 & 0.74\\ 
 		\hline 
     \end{tabular}
-	\caption{Number of days in each category observed and estimated in 2015-2018.}
+	\caption{Number of days in each category observed and estimated in 2015.}
+	\label{tab:2015}
 \end{table}
-
-Here, since $E_{8}$, $E_{9}$ and $E_{10}$ do not satisfies $E_{i} \geq 5$, we merge $E_{9}$ and $E_{10}$ into one category. Then the degree of freedom for chi-squared random variable will be $10-1-1 = 8$.
-
-We then calculate the Pearson statistic as follows,
+Here since $E_{8}$, $E_{9}$ and $E_{10}$ do not satisfy $E_{i} \geq 5$, we merge $E_{9}$ and $E_{10}$ into one category.
+Then the degree of freedom for chi-squared random variable will be $10-1-1 = 8$.
+We then calculate the Pearson statistic
 \begin{align*}
 	X_{8}^{2} &= \sum_{i = 0}^{9}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
 	&= \frac{(24-23.9)^{2}}{23.9}+\cdots+\frac{(0-0.74)^{2}}{0.74}\\
 	&\approx 5.43.\\
 \end{align*}
-
-For chi-squared distribution with degree 8, we have $\chi_{0.05,8}^{2} = 15.5$. So for the test of year 2015
+The critical value is $\chi_{0.05,8}^{2} = 15.5$.
+So for the test of year 2015
 \begin{equation*}
 	X_{8}^{2} = 5.43 < \chi_{0.05,8}^{2} = 15.5,
 \end{equation*}
@@ -332,22 +345,21 @@ Then for the estimators we use, they will have the relation
 \end{equation*}
 since $\hat{\lambda_{1}}$ and $\hat{\lambda_{2}}$ are unbiased estimators for $\lambda_{1}$ and $\lambda_{2}$.
 
-The samples we use in this test is large enough, then from Central Limit theorem[4] we have
+The sample we use in this test is large enough, then from Central Limit theorem \cite{slides} we have
 \begin{equation*}
-	\frac{\hat{\lambda_{1}} - \hat{\lambda_{2}}}{\sqrt{\text{Var}\left[\hat{\lambda_{1}} - \hat{\lambda_{2}}\right]}}
+	\frac{\hat{\lambda_{1}} - \hat{\lambda_{2}}}{\sqrt{\text{Var}\left(\hat{\lambda_{1}} - \hat{\lambda_{2}}\right)}}
 	\sim N(0, 1),
 \end{equation*}
 here $N(0,1)$ is s standard normal distribution.
-
 The variance of variable $\hat{\lambda_{1}}-\hat{\lambda_{2}}$ is estimated from observation, an unbiased estimator is derived from
 \begin{align*}
-	\text{Var}\left[\hat{\lambda_{1}} - \hat{\lambda_{2}}\right]
-	&= \text{Var}\left[\frac{X_{1}}{n_{1}} - \frac{X_{2}}{n_{2}}\right] \\
-	&= \frac{1}{n_{1}^{2}}\text{Var}[X_{1}]
-	+ \frac{1}{n_{2}^{2}}\text{Var}[X_{2}] \\
+	\text{Var}\left(\hat{\lambda_{1}} - \hat{\lambda_{2}}\right)
+	&= \text{Var}\left(\frac{X_{1}}{n_{1}} - \frac{X_{2}}{n_{2}}\right) \\
+	&= \frac{1}{n_{1}^{2}}\text{Var} X_{1}
+	+ \frac{1}{n_{2}^{2}}\text{Var} X_{2} \\
 	&= \frac{\lambda_{1}}{n_{1}} + \frac{\lambda_{2}}{n_{2}}.
 \end{align*}
-Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}$ to estimate $\text{Var}\left[\hat{\lambda_{1}}-\hat{\lambda_{2}}\right]$.
+Here we use the fact that $X_{1}$ and $X_{2}$ are independent. So we use $\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}$ to estimate $\text{Var}\left(\hat{\lambda_{1}}-\hat{\lambda_{2}}\right)$.
 
 So we can reject $H_{0}$ if we have 
 \[\frac{|\hat{\lambda_{1}}-\hat{\lambda_{2}}|}{\sqrt{\hat{\lambda_{1}}/{n_{1}} + \hat{\lambda_{2}}/{n_{2}}}} > z_{0.025}.\]
@@ -368,7 +380,7 @@ So we check the influence of weekdays in this section.
 We first plot the number of incidents happened in each weekday to have a general observation in Figure \ref{fig:weekdays}. The data here is 4 years from 2015 to 2018 together.
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.7\textwidth]{weekdays.png}
+	\includegraphics[width=0.6\textwidth]{weekdays.png}
 	\caption{Number of incidents in each weekday for four years together.}
 	\label{fig:weekdays}
 \end{figure}
@@ -384,14 +396,12 @@ Assume that the null hypothesis is true, the probability for an incident to happ
 \begin{equation*}
 	P_{1} = \cdots = P_{7} = \frac{1}{7}.
 \end{equation*}
-
 In the four years, there are $208$ Tuesdays and Wednesdays, and there are $209$ other weekdays. 
 Since the difference is relatively small, we ignore the difference of the numbers of weekdays.
 So if the null hypothesis holds, we will have expected number of incidents happened in each weekday equal to
 \begin{equation*}
 	E_{i} = P_{i} \times N = \frac{N}{7}.
 \end{equation*}
-
 In Table \ref{tab:weekdays}, we list the number of incidents happened in each weekday by observation and by prediction. 
 Here we use the fact the total number of incidents is $N = 3943$.
 \begin{table}[htbp]
@@ -495,7 +505,7 @@ So we can reject $H_{0}$ with significance $\alpha = 0.05$. There is evidence th
 
 In conclusion for this section, our tests show that there is evidence that the distributions of incidents are different Monday and Wednesday. This result makes the description of our model more complete.
 \section{Confidence Interval for $k$}
-We want to provide a confidence interval for Poisson parameter $k = \lambda n$ with $95\%$ level of confidence. 
+We want to provide a confidence interval for Poisson parameter $k = \lambda n$ with \SI{95}{\percent} level of confidence. 
 The time period we choose is 1 day and the total number of identical observations we have is $n = 1461$ from 2015 to 2018.
 
 The estimator we use is the average number of incidents happened per day $\hat{k} = \bar{X}$.
@@ -517,16 +527,16 @@ From Central Limit theorem, the distribution of $\bar{X}$ for $n$ large enough w
 \end{equation*}
 is used in our test. 
 
-We will have $(1-\alpha)100\%$ probability to have 
+We will have $(1-\alpha)\SI{100}{\percent}$ probability to have 
 \begin{equation*}
 	-z_{\alpha/2} \leq \frac{\hat{k}-k}{\sqrt{k/n}} \leq z_{\alpha/2}.
 \end{equation*}
-The $(1-\alpha)100\%$ confidence interval for $k$ is then 
+The $(1-\alpha)\SI{100}{\percent}$ confidence interval for $k$ is then 
 \begin{equation*}
 	\hat{k} \pm z_{\alpha/2}\sqrt{\hat{k}/n}.
 \end{equation*}
 
-From the data from 2015 to 2018, we have 3943 incidents in 1461 days, so $\bar{X} = 3943/1461 \approx 2.699$. We use $z_{\alpha/2} \approx 1.96$ and the 95\% confidence interval for $k$ is then 
+From the data from 2015 to 2018, we have 3943 incidents in 1461 days, so $\bar{X} = 3943/1461 \approx 2.699$. We use $z_{\alpha/2} \approx 1.96$ and the \SI{95}{\percent} confidence interval for $k$ is then 
 \begin{equation*}
 	2.699 \pm 0.084.
 \end{equation*}
@@ -561,7 +571,7 @@ So to reject the null hypothesis
 \begin{equation*}
 	H_{0}:\text{ Poisson distribution is appropriate}
 \end{equation*}
-with significance level $\alpha = 5\%$, we need $X_{4} \geq \chi^{2}_{0.05,4}$.
+with significance level $\alpha = \SI{5}{\percent}$, we need $X_{4} \geq \chi^{2}_{0.05,4}$.
 
 From our calculation,
 \begin{align*}
@@ -574,7 +584,7 @@ Then the confidence interval for the parameter $\hat{k}_{2019}$ is
 \begin{equation*}
 	2.444 \pm 0.456.
 \end{equation*}
-We can notice that the confidence interval covers the confidence interval for $\hat{k}$ by 4 years. If the 95\% confidence provided in previous part is true, the confidence interval provided here shows that there is no evidence the distribution of incidents in 2019 is different from previous 4 years. 
+We can notice that the confidence interval covers the confidence interval for $\hat{k}$ by 4 years. If the \SI{95}{\percent} confidence provided in previous part is true, the confidence interval provided here shows that there is no evidence the distribution of incidents in 2019 is different from previous 4 years. 
 \section{Prediction Interval}
 After we provided a confidence interval for parameter $k$, we want to predict the incidents that will happen in future observations.
 
@@ -597,7 +607,7 @@ The mean of $Y-\hat{Y}$ is $0$, and the variance is
 	&= \lambda m+\frac{m^{2}}{n}\lambda.\\
 \end{align*}
 Here we use the fact that $X$ and $Y$ for different periods of observations are independent.
-This gives the derivation of Nelson's formula[?].
+This gives the derivation of Nelson's formula \cite{prediction}.
 Then we use estimated $\hat{\lambda}$ to replace $\lambda$ and 
 \begin{equation*}
 	\frac{Y-\hat{Y}}{\sqrt{\hat{\lambda}\left(m+\frac{m^{2}}{n}\right)}} \sim N(0,1).
@@ -633,10 +643,14 @@ In this report, we use Poisson distribution to explain the happening of fatal po
 
 However, we then check whether the distribution of fatal police shootings is actually uniform in a week. The result shows that there is evidence that the happening of incidents depend on weekdays. We then compare the Poisson distribution of fatal police shootings on Mondays and Wednesdays and the results shows that there is evidence that they are different distribution. From this point of view, our model is not complete enough to describe the probability for an incident to happen during a week.
 
-We finally use the model we have to provide the confidence interval for $\lambda$. The 95\% confidence interval for $\lambda$ using data from 2015 to 2018 is 
-\[2.699 \pm 0.084.\]
-We then provide the 95\% confidence interval using data obtained in 2019, and it is 
-\[2.444 \pm 0.456.\]
+We finally use the model we have to provide the confidence interval for $\lambda$. The \SI{95}{\percent} confidence interval for $\lambda$ using data from 2015 to 2018 is 
+\begin{equation*}
+	2.699 \pm 0.084.
+\end{equation*}
+We then provide the \SI{95}{\percent} confidence interval using data obtained in 2019, and it is
+\begin{equation*}
+	2.444 \pm 0.456.	
+\end{equation*}
 So the previous confidence interval is within this range. If previous interval is true, there is no obvious evidence that the distribution of incidents in year 2019 is different from previous 4 years.
 
 We also use our model to provide a prediction interval for the number of incidents that are supposed to happen in year 2019. From the result we obtained, the observed value is always within the prediction interval. This confirms our conclusion that the distribution of incidents in 2019 is not different from previous 4 years.
