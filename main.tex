@@ -68,7 +68,7 @@ Police Shootings in the United States}} \\
 	In this project, we provide statistical analysis to the happening of fatal police shootings in the U.S. using the data collected by the Washington Post from 2015 to 2019 February.
 	We use data from 2015 to 2018 as observed data and use the data in 2019 to evaluate our model.
 	Our tests show that for 4 years together or one year individually, we can use Poisson distribution to explain the happening of shooting incidents.
-	However, Poisson distribution cannot reveal the fact that the distribution of shooting incidents is not the same for different weekdays.
+	However, Poisson distribution cannot reveal the fact that the distribution of shooting incidents depends on weekdays.
 	Our tests show that there is evidence that the distribution of shooting incidents are different on Monday and Wednesday.
 	Finally, we provide \SI{95}{\percent} confidence interval for parameter $\lambda$ estimated by 4 years data.
 	We compare the \SI{95}{\percent} confidence interval calculated from data in 2019.
@@ -257,7 +257,7 @@ We summarize the numbers of days in each category by observation and by predicti
 	\caption{Number of days in each category observed and estimated from 2015 to 2018.}
 	\label{tab:4-years}
 \end{table}
-The Pearson statistic is
+\\The Pearson statistic is
 \begin{align*}
 	X_{9}^{2} &= \sum_{i = 0}^{10}\frac{(O_{i}-E_{i})^{2}}{E_{i}}\\
 	&= \frac{(108-98.2)^{2}}{98.2}+\cdots+\frac{(1-2.1)^{2}}{2.1}\\
@@ -330,7 +330,7 @@ So for the test of year 2015
 so we cannot reject $H_{0}$ with significance 0.05.
 There is no significant evidence that the distribution of shooting incidents in 2015 does not follow a Poisson distribution.
 
-\subsection{Comparison between one year and four year together}
+\subsection{Comparison between one year and four years together}
 However, we want to further make sure this is the same Poisson distribution as the distribution for four years in total. The null hypothesis is 
 \[H_{0}:\text{ Poisson distribution for year 2015 are the same as 4 years together.}\]
 We denote the parameter $\lambda_{1}$ for 4 years together and $\lambda_{2}$ for year 2015. From previous section, we have estimated values as
